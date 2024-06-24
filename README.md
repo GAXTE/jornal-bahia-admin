@@ -1,0 +1,2 @@
+# jornal-bahia-admin
+dashboard
