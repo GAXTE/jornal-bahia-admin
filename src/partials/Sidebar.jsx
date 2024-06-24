@@ -25,6 +25,26 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
     document.addEventListener("click", clickHandler);
     return () => document.removeEventListener("click", clickHandler);
   });
+
+  // close if the esc key is pressed
+  useEffect(() => {
+    const keyHandler = ({ keyCode }) => {
+      if (!sidebarOpen || keyCode !== 27) return;
+      setSidebarOpen(false);
+    };
+    document.addEventListener("keydown", keyHandler);
+    return () => document.removeEventListener("keydown", keyHandler);
+  });
+
+  useEffect(() => {
+    localStorage.setItem("sidebar-expanded", sidebarExpanded);
+    if (sidebarExpanded) {
+      document.querySelector("body").classList.add("sidebar-expanded");
+    } else {
+      document.querySelector("body").classList.remove("sidebar-expanded");
+    }
+  }, [sidebarExpanded]);
+
   return (
     <div>
       {/* Sidebar backdrop (mobile only) */}
