@@ -12,7 +12,7 @@ import Banner from "../partials/Banner";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -21,7 +21,7 @@ function Dashboard() {
 
         <main>
           <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-            <WelcomeBanner />
+            <WelcomeBanner name={user.username} />
             <div className="sm:flex sm:justify-end sm:items-center mb-8">
               <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                 <Datepicker />
