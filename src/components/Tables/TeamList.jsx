@@ -3,7 +3,7 @@ import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
 
-export const CategoryList = ({ array }) => {
+export const TeamList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 
   const truncateTitle = (title) => {
