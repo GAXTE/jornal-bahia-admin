@@ -31,7 +31,7 @@ export const PostProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      setGetAllPosts([...AllPosts, data]);
+      sessionStorage.setItem("allPosts", "");
       getAllPosts();
     } catch (error) {}
   };
