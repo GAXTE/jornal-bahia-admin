@@ -6,6 +6,7 @@ import { UserProvider } from "./providers/UserContext";
 import App from "./App";
 import { CategoryProvider } from "./providers/CategoryContext";
 import { PostProvider } from "./providers/PostContext";
+import { TagsProvider } from "./providers/TagsContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -14,7 +15,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <UserProvider>
           <PostProvider>
             <CategoryProvider>
-              <App />
+              <TagsProvider>
+                <App />
+              </TagsProvider>
             </CategoryProvider>
           </PostProvider>
         </UserProvider>
