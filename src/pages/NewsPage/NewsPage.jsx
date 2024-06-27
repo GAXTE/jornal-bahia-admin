@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NewsList } from "../../components/Tables/NewsList";
 import { DefaultModal } from "../../components/Modals/DefaultModal";
 import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
