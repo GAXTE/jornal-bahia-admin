@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Api } from "../services/api";
 
 const PostContext = createContext({});
@@ -81,7 +81,12 @@ export const PostProvider = ({ children }) => {
       console.log(error);
     }
   };
-  return <PostContext.Provider value={{ createPost, getAllPosts }}>{children}</PostContext.Provider>;
+  useEffect(() => {
+    getAllPosts();
+  }, []);
+  return (
+    <PostContext.Provider value={{ createPost, getAllPosts, AllPosts }}>{children}</PostContext.Provider>
+  );
 };
 
 export const usePostContext = () => useContext(PostContext);
