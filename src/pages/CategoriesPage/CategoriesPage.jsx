@@ -17,7 +17,6 @@ const posts = [
 ];
 
 export const Categories = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
 
   return (
@@ -29,7 +28,12 @@ export const Categories = () => {
         <DefaultModal
           isModalOpen={isModalOpenCreate}
           setIsModalOpen={setIsModalOpenCreate}
-        ></DefaultModal>
+        >
+          <form action="">
+            <input type="text" placeholder="nome" />
+            <input type="text" placeholder="descrição" />
+          </form>
+        </DefaultModal>
         <CategoryList array={posts} />
       </DefaultTemplate>
     </>

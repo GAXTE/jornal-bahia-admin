@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { NewsList } from "../../components/Tables/NewsList";
 import { DefaultModal } from "../../components/Modals/DefaultModal";
 import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
+import { TextRich } from "../../components/TextRich/TextRich";
 
 // Lista de posts de exemplo
 
@@ -19,6 +20,11 @@ const posts = [
 
 export const News = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
+  const [editContent, setEditContent] = useState("");
+
+  const handleChange = (content) => {
+    setEditContent(content);
+  };
 
   return (
     <>
@@ -29,7 +35,15 @@ export const News = () => {
         <DefaultModal
           isModalOpen={isModalOpenCreate}
           setIsModalOpen={setIsModalOpenCreate}
-        ></DefaultModal>
+        >
+          <form action="">
+            <input type="text" placeholder="Título" />
+            <input type="file" placeholder="Imagem" />
+            <select name="" id=""></select>
+            <TextRich onChange={handleChange} />
+          </form>
+        </DefaultModal>
+
         <NewsList array={posts} />
       </DefaultTemplate>
     </>

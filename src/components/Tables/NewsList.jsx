@@ -2,15 +2,23 @@ import React, { useState } from "react";
 import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
+import { DefaultModal } from "../Modals/DefaultModal";
+import { TextRich } from "../TextRich/TextRich";
 
 export const NewsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+  const [isModalOpenEdit, setIsModalEdit] = useState(false);
+  const [editContent, setEditContent] = useState("");
 
   const truncateTitle = (title) => {
     if (title.length > 100) {
       return `${title.substring(0, 80)}...`;
     }
     return title;
+  };
+
+  const handleChange = (content) => {
+    setEditContent(content);
   };
 
   return (
@@ -73,12 +81,24 @@ export const NewsList = ({ array }) => {
                           isModalOpenDelete={isModalOpenDelete}
                           setIsModalOpenDelete={setIsModalOpenDelete}
                         />
-                        <Edit />
+                        <Edit
+                          isModalOpenEdit={isModalOpenEdit}
+                          setIsModalEdit={setIsModalEdit}
+                        />
                       </td>
                       <ConfirmModal
                         isModalOpenDelete={isModalOpenDelete}
                         setIsModalOpenDelete={setIsModalOpenDelete}
                       />
+                      <DefaultModal
+                        isModalOpen={isModalOpenEdit}
+                        setIsModalOpen={setIsModalEdit}
+                      >
+                        <form action="">
+                          <input type="text" placeholder="Título" />
+                          <TextRich onChange={handleChange} />
+                        </form>
+                      </DefaultModal>
                     </tr>
                   ))}
                 </tbody>
