@@ -68,19 +68,28 @@ export const PostProvider = ({ children }) => {
     } catch (error) {}
   };
   const deletePost = async (id) => {
+    const token = localStorage.getItem("token");
     try {
       if (!id) {
         console.log("id e necessario");
         return;
       }
-      const { data } = await Api.delete(`/post/${id}`);
+      const { data } = await Api.delete(`/post/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      sessionStorage.setItem("allPosts", "");
+      getAllPosts();
     } catch (error) {}
   };
   useEffect(() => {
     getAllPosts();
   }, []);
   return (
-    <PostContext.Provider value={{ createPost, getAllPosts, AllPosts }}>{children}</PostContext.Provider>
+    <PostContext.Provider value={{ createPost, getAllPosts, AllPosts, deletePost }}>
+      {children}
+    </PostContext.Provider>
   );
 };
 
