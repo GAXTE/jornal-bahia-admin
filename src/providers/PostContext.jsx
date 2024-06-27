@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Api } from "../services/api";
 
 const PostContext = createContext({});
@@ -9,7 +9,7 @@ export const PostProvider = ({ children }) => {
   const createPost = async (post) => {
     const { title, content, categoryId, tagIds, files } = post;
     try {
-      if (!title || !content || !categoryId || !tagIds) {
+      if (!title || !content || !categoryId || !tagIds.length) {
         console.log("Todos os campos são necessários");
         return;
       }
@@ -17,22 +17,23 @@ export const PostProvider = ({ children }) => {
       formData.append("title", title);
       formData.append("content", content);
       formData.append("categoryId", categoryId);
-      tagIds.forEach((tagId) => formData.append("tagIds", tagId));
+
+      const tagsToAppend = tagIds.length === 1 ? [tagIds[0], tagIds[0]] : tagIds;
+      tagsToAppend.forEach((tagId) => formData.append("tagIds", tagId));
+
       if (files?.length) {
         for (let i = 0; i < files.length; i++) {
           formData.append("files", files[i]);
         }
       }
-
       const { data } = await Api.post("/post", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+      sessionStorage.setItem("allPosts", "");
+      getAllPosts();
+    } catch (error) {}
   };
   const getAllPosts = async () => {
     const cachedPosts = sessionStorage.getItem("allPosts");
@@ -64,10 +65,7 @@ export const PostProvider = ({ children }) => {
       const { data } = await Api.put(`/post/${id}`, {
         post,
       });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const deletePost = async (id) => {
     try {
@@ -76,12 +74,14 @@ export const PostProvider = ({ children }) => {
         return;
       }
       const { data } = await Api.delete(`/post/${id}`);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
-  return <PostContext.Provider value={{ createPost, getAllPosts }}>{children}</PostContext.Provider>;
+  useEffect(() => {
+    getAllPosts();
+  }, []);
+  return (
+    <PostContext.Provider value={{ createPost, getAllPosts, AllPosts }}>{children}</PostContext.Provider>
+  );
 };
 
 export const usePostContext = () => useContext(PostContext);

@@ -10,14 +10,11 @@ export const UserProvider = ({ children }) => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data));
       navi("/");
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const forgot = async (email) => {
     try {
       const { data } = await Api.post("/user/password", { email });
-      console.log(data);
       localStorage.setItem("user-validation", data.userId);
       alert("Email enviado com sucesso");
       navi("/password");
