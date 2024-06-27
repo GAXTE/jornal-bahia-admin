@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Trash } from "../Buttons/TrashButton";
-import { Edit } from "../Buttons/EditIcon";
+import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
 
-export const PostList = ({ array }) => {
+export const NewsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 
   const truncateTitle = (title) => {
@@ -19,7 +19,7 @@ export const PostList = ({ array }) => {
         <h2 className="text-lg font-medium text-gray-800 dark:text-white">
           Anúncios
         </h2>
-        <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
+        <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full ">
           Total = {array.length}
         </span>
       </div>
