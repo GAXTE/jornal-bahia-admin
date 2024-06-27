@@ -9,6 +9,9 @@ import Dashboard from "./pages/Dashboard";
 import { LoginPage } from "./pages/auth/Login/Login";
 import { ForgotPassword } from "./pages/auth/ForgotPassword/ForgotPassword";
 import { ResetPassword } from "./pages/auth/ResetPassword/ResetPassword";
+import { LoginPage } from "./pages/Login/Login";
+import { News } from "./pages/NewsPage/NewsPage";
+import { Categories } from "./pages/CategoriesPage/CategoriesPage";
 
 function App() {
   const location = useLocation();
@@ -17,7 +20,7 @@ function App() {
     document.querySelector("html").style.scrollBehavior = "auto";
     window.scroll({ top: 0 });
     document.querySelector("html").style.scrollBehavior = "";
-  }, [location.pathname]); // triggered on route change
+  }, [location.pathname]);
 
   return (
     <>
@@ -26,6 +29,8 @@ function App() {
         <Route exact path="/login" element={<LoginPage />} />
         <Route exact path="/forgot" element={<ForgotPassword />} />
         <Route exact path="/password" element={<ResetPassword />} />
+        <Route exact path="/news" element={<News />} />
+        <Route exact path="/categories" element={<Categories />} />
       </Routes>
     </>
   );
