@@ -5,8 +5,10 @@ import "./css/style.css";
 
 import "./charts/ChartjsConfig";
 
-// Import pages
 import Dashboard from "./pages/Dashboard";
+import { LoginPage } from "./pages/auth/Login/Login";
+import { ForgotPassword } from "./pages/auth/ForgotPassword/ForgotPassword";
+import { ResetPassword } from "./pages/auth/ResetPassword/ResetPassword";
 import { LoginPage } from "./pages/Login/Login";
 import { News } from "./pages/NewsPage/NewsPage";
 import { Categories } from "./pages/CategoriesPage/CategoriesPage";
@@ -25,6 +27,8 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Dashboard />} />
         <Route exact path="/login" element={<LoginPage />} />
+        <Route exact path="/forgot" element={<ForgotPassword />} />
+        <Route exact path="/password" element={<ResetPassword />} />
         <Route exact path="/news" element={<News />} />
         <Route exact path="/categories" element={<Categories />} />
       </Routes>

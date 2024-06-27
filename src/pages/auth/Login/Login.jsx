@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import logo from "../../assets/Logo.png";
-import { useUserContext } from "../../providers/UserContext";
+import logo from "../../../assets/Logo.png";
+import { useUserContext } from "../../../providers/UserContext";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
