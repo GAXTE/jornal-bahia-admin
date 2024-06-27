@@ -9,8 +9,11 @@ import Dashboard from "./pages/Dashboard";
 import { LoginPage } from "./pages/auth/Login/Login";
 import { ForgotPassword } from "./pages/auth/ForgotPassword/ForgotPassword";
 import { ResetPassword } from "./pages/auth/ResetPassword/ResetPassword";
-import { News } from "./pages/NewsPage/NewsPage";
-import { Categories } from "./pages/CategoriesPage/CategoriesPage";
+import { NewsPage } from "./pages/NewsPage/NewsPage";
+import { CategoriesPage } from "./pages/CategoriesPage/CategoriesPage";
+import { TagsPage } from "./pages/TagsPage/TagsPage";
+import { AddsPage } from "./pages/AddsPage/AddsPage";
+import { TeamPage } from "./pages/TeamPage/TeamPage";
 
 function App() {
   const location = useLocation();
@@ -28,8 +31,11 @@ function App() {
         <Route exact path="/login" element={<LoginPage />} />
         <Route exact path="/forgot" element={<ForgotPassword />} />
         <Route exact path="/password" element={<ResetPassword />} />
-        <Route exact path="/news" element={<News />} />
-        <Route exact path="/categories" element={<Categories />} />
+        <Route exact path="/news" element={<NewsPage />} />
+        <Route exact path="/categories" element={<CategoriesPage />} />
+        <Route exact path="/tags" element={<TagsPage />} />
+        <Route exact path="/adds" element={<AddsPage />} />
+        <Route exact path="/team" element={<TeamPage />} />
       </Routes>
     </>
   );

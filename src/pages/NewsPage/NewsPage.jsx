@@ -18,7 +18,7 @@ const posts = [
   { title: "Post 3", category: "Categoria C", date: "03/03/2023" },
 ];
 
-export const News = () => {
+export const NewsPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
   const [editContent, setEditContent] = useState("");
 

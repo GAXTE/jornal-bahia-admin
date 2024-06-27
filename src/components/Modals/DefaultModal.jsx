@@ -29,7 +29,7 @@ export const DefaultModal = ({ isModalOpen, setIsModalOpen, children }) => {
               // exit={{ opacity: 0, x: 50 }}
               ref={modalContentRef}
               onClick={(e) => e.stopPropagation()}
-              className=" bg-white w-[600px] h-[400px] flex flex-col  items-center overflow-y-auto  "
+              className=" bg-white  flex flex-col  items-center overflow-y-auto  "
             >
               <button
                 className="self-end sticky top-2 mt-2 mr-7 cursor-pointer"
