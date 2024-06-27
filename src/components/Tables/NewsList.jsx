@@ -24,9 +24,7 @@ export const NewsList = ({ array }) => {
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-          Anúncios
-        </h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Anúncios</h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full ">
           Total = {array.length}
         </span>
@@ -71,7 +69,7 @@ export const NewsList = ({ array }) => {
                         {truncateTitle(post.title)}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {post.category}
+                        {post.categories[0].name}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                         {post.date}
@@ -81,19 +79,13 @@ export const NewsList = ({ array }) => {
                           isModalOpenDelete={isModalOpenDelete}
                           setIsModalOpenDelete={setIsModalOpenDelete}
                         />
-                        <Edit
-                          isModalOpenEdit={isModalOpenEdit}
-                          setIsModalEdit={setIsModalEdit}
-                        />
+                        <Edit isModalOpenEdit={isModalOpenEdit} setIsModalEdit={setIsModalEdit} />
                       </td>
                       <ConfirmModal
                         isModalOpenDelete={isModalOpenDelete}
                         setIsModalOpenDelete={setIsModalOpenDelete}
                       />
-                      <DefaultModal
-                        isModalOpen={isModalOpenEdit}
-                        setIsModalOpen={setIsModalEdit}
-                      >
+                      <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
                         <form action="">
                           <input type="text" placeholder="Título" />
                           <TextRich onChange={handleChange} />
