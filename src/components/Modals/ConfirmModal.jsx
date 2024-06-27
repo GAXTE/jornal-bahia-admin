@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { DefaultModal } from "./DefaultModal";
 
 export const ConfirmModal = ({
