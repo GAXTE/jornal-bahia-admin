@@ -1,3 +1,5 @@
+import { NoButton } from "../Buttons/NoButton";
+import { YesButton } from "../Buttons/YesButton";
 import { DefaultModal } from "./DefaultModal";
 
 export const ConfirmModal = ({
@@ -11,10 +13,12 @@ export const ConfirmModal = ({
         isModalOpen={isModalOpenDelete}
         setIsModalOpen={setIsModalOpenDelete}
       >
-        <div>
-          <h1>Confirmar a exclusão ?</h1>
-          <button>Sim</button>
-          <button>Não</button>
+        <div className="flex flex-col items-center w-[250px] h-[100px] gap-6">
+          <h1 className="text-lg ">Confirmar a exclusão ?</h1>
+          <div className="flex gap-3">
+            <YesButton />
+            <NoButton />
+          </div>
         </div>
         {children}
       </DefaultModal>

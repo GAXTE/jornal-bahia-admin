@@ -3,7 +3,7 @@ import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
 
-export const TeamList = ({ array }) => {
+export const TagsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 
   const truncateTitle = (title) => {
@@ -17,7 +17,7 @@ export const TeamList = ({ array }) => {
     <section className="">
       <div className="flex items-center gap-x-3">
         <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-          Equipe
+          Tags
         </h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full">
           Total = {array.length}
