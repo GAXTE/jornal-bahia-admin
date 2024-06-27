@@ -8,6 +8,7 @@ import { TextRich } from "../TextRich/TextRich";
 export const NewsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isModalOpenEdit, setIsModalEdit] = useState(false);
+  const [postDelete, setPostDelete] = useState();
   const [editContent, setEditContent] = useState("");
 
   const truncateTitle = (title) => {
@@ -80,12 +81,15 @@ export const NewsList = ({ array }) => {
                           <Trash
                             isModalOpenDelete={isModalOpenDelete}
                             setIsModalOpenDelete={setIsModalOpenDelete}
+                            setPostDelete={setPostDelete}
+                            uuid={post.id}
                           />
                           <Edit isModalOpenEdit={isModalOpenEdit} setIsModalEdit={setIsModalEdit} />
                         </td>
                         <ConfirmModal
                           isModalOpenDelete={isModalOpenDelete}
                           setIsModalOpenDelete={setIsModalOpenDelete}
+                          postDelete={postDelete}
                         />
                         <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
                           <form action="">
