@@ -63,36 +63,38 @@ export const NewsList = ({ array }) => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                  {array.map((post, index) => (
-                    <tr key={index}>
-                      <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap dark:text-white">
-                        {truncateTitle(post.title)}
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {post.categories[0].name}
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {new Date(post.createdAt).toLocaleDateString("pt-BR")}
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
-                        <Trash
+                  {array
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    .map((post, index) => (
+                      <tr key={index}>
+                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap dark:text-white">
+                          {truncateTitle(post.title)}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                          {post.categories[0].name}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                          {new Date(post.createdAt).toLocaleDateString("pt-BR")}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
+                          <Trash
+                            isModalOpenDelete={isModalOpenDelete}
+                            setIsModalOpenDelete={setIsModalOpenDelete}
+                          />
+                          <Edit isModalOpenEdit={isModalOpenEdit} setIsModalEdit={setIsModalEdit} />
+                        </td>
+                        <ConfirmModal
                           isModalOpenDelete={isModalOpenDelete}
                           setIsModalOpenDelete={setIsModalOpenDelete}
                         />
-                        <Edit isModalOpenEdit={isModalOpenEdit} setIsModalEdit={setIsModalEdit} />
-                      </td>
-                      <ConfirmModal
-                        isModalOpenDelete={isModalOpenDelete}
-                        setIsModalOpenDelete={setIsModalOpenDelete}
-                      />
-                      <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
-                        <form action="">
-                          <input type="text" placeholder="Título" />
-                          <TextRich onChange={handleChange} />
-                        </form>
-                      </DefaultModal>
-                    </tr>
-                  ))}
+                        <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
+                          <form action="">
+                            <input type="text" placeholder="Título" />
+                            <TextRich onChange={handleChange} />
+                          </form>
+                        </DefaultModal>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
