@@ -72,7 +72,7 @@ export const NewsList = ({ array }) => {
                         {post.categories[0].name}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {post.date}
+                        {new Date(post.createdAt).toLocaleDateString("pt-BR")}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
                         <Trash
