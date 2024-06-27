@@ -31,6 +31,8 @@ export const PostProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       });
+      setGetAllPosts([...AllPosts, data]);
+      getAllPosts();
     } catch (error) {}
   };
   const getAllPosts = async () => {
