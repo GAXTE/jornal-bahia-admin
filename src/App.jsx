@@ -9,7 +9,6 @@ import Dashboard from "./pages/Dashboard";
 import { LoginPage } from "./pages/auth/Login/Login";
 import { ForgotPassword } from "./pages/auth/ForgotPassword/ForgotPassword";
 import { ResetPassword } from "./pages/auth/ResetPassword/ResetPassword";
-import { LoginPage } from "./pages/Login/Login";
 import { News } from "./pages/NewsPage/NewsPage";
 import { Categories } from "./pages/CategoriesPage/CategoriesPage";
 
