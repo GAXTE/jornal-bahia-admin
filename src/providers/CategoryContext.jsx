@@ -26,8 +26,19 @@ export const CategoryProvider = ({ children }) => {
       getAllCategories();
     } catch (error) {}
   };
+  const deleteCategory = async (id) => {
+    const obj = {
+      data: { id },
+    };
+    try {
+      const { data } = await Api.delete("/category", obj);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <CategoryContext.Provider value={{ ListAllCategories, createCategory }}>
+    <CategoryContext.Provider value={{ ListAllCategories, createCategory, deleteCategory }}>
       {children}
     </CategoryContext.Provider>
   );
