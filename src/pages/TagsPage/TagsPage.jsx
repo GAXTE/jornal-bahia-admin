@@ -13,11 +13,7 @@ export const TagsPage = () => {
       <DefaultTemplate textButton={"Tag"} setIsModalOpenCreate={setIsModalOpenCreate}>
         textButton={"Tag"}
         setIsModalOpenCreate={setIsModalOpenCreate}
-      >
-        <DefaultModal
-          isModalOpen={isModalOpenCreate}
-          setIsModalOpen={setIsModalOpenCreate}
-        >
+        <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
           <form action="">
             <DefaultInput
               type={"text"}

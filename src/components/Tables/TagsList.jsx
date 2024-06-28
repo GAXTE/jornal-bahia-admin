@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
+import { DefaultModal } from "../Modals/DefaultModal";
+import { DefaultInput } from "../Inputs/DefaultInput";
 
 export const TagsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -60,10 +62,7 @@ export const TagsList = ({ array }) => {
                         isModalOpenDelete={isModalOpenDelete}
                         setIsModalOpenDelete={setIsModalOpenDelete}
                       />
-                      <DefaultModal
-                        isModalOpen={isModalOpenEdit}
-                        setIsModalOpen={setIsModalEdit}
-                      >
+                      <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
                         <form action="">
                           <DefaultInput
                             type={"text"}
