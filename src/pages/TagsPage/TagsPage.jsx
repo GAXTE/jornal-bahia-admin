@@ -10,10 +10,14 @@ export const TagsPage = () => {
   const { ListAlltags } = useTagsContext();
   return (
     <>
-      <DefaultTemplate textButton={"Tag"} setIsModalOpenCreate={setIsModalOpenCreate}>
+      <DefaultTemplate
         textButton={"Tag"}
         setIsModalOpenCreate={setIsModalOpenCreate}
-        <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
+      >
+        <DefaultModal
+          isModalOpen={isModalOpenCreate}
+          setIsModalOpen={setIsModalOpenCreate}
+        >
           <form action="">
             <DefaultInput
               type={"text"}
