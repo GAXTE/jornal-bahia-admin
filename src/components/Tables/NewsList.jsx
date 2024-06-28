@@ -5,6 +5,7 @@ import { ConfirmModal } from "../Modals/ConfirmModal";
 import { DefaultModal } from "../Modals/DefaultModal";
 import { TextRich } from "../TextRich/TextRich";
 import { DefaultInput } from "../Inputs/DefaultInput";
+import { YesButton } from "../Buttons/YesButton";
 
 export const NewsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -32,7 +33,9 @@ export const NewsList = ({ array }) => {
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Noticias</h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
+          Noticias
+        </h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full ">
           Total = {array.length}
         </span>
@@ -72,7 +75,9 @@ export const NewsList = ({ array }) => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                   {array
-                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    .sort(
+                      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                    )
                     .map((post, index) => (
                       <tr key={index}>
                         <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap dark:text-white">
@@ -91,26 +96,35 @@ export const NewsList = ({ array }) => {
                             setPostDelete={setPostDelete}
                             uuid={post.id}
                           />
-                          <Edit isModalOpenEdit={isModalOpenEdit} setIsModalEdit={setIsModalEdit} />
+                          <Edit
+                            isModalOpenEdit={isModalOpenEdit}
+                            setIsModalEdit={setIsModalEdit}
+                          />
                         </td>
-                        <ConfirmModal
-                          isModalOpenDelete={isModalOpenDelete}
-                          setIsModalOpenDelete={setIsModalOpenDelete}
-                          postDelete={postDelete}
-                        />
-                        <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
-                          <form action="">
-                            <DefaultInput
-                              type={"text"}
-                              placeholder={"Título"}
-                              handleInputChange={handleInputChange}
-                              name={"title"}
-                            />
-                            <TextRich onChange={handleChange} />
-                          </form>
-                        </DefaultModal>
                       </tr>
                     ))}
+                  <ConfirmModal
+                    isModalOpenDelete={isModalOpenDelete}
+                    setIsModalOpenDelete={setIsModalOpenDelete}
+                    postDelete={postDelete}
+                  />
+                  <DefaultModal
+                    isModalOpen={isModalOpenEdit}
+                    setIsModalOpen={setIsModalEdit}
+                  >
+                    <form action="" className="flex flex-col gap-8">
+                      <div className="flex flex-col gap-6 items-center">
+                        <DefaultInput
+                          type={"text"}
+                          placeholder={"Título da notícia"}
+                          // handleInputChange={handleInputChange}
+                          name={"title"}
+                        />
+                        <TextRich onChange={handleChange} />
+                        <YesButton type={"submit"} textButton={"Editar"} />
+                      </div>
+                    </form>
+                  </DefaultModal>
                 </tbody>
               </table>
             </div>

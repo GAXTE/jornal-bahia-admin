@@ -29,7 +29,7 @@ export const DefaultModal = ({ isModalOpen, setIsModalOpen, children }) => {
               // exit={{ opacity: 0, x: 50 }}
               ref={modalContentRef}
               onClick={(e) => e.stopPropagation()}
-              className=" bg-white  flex flex-col  items-center overflow-y-auto  "
+              className=" bg-white  flex flex-col  items-center   "
             >
               <button
                 className="self-end sticky top-2 mt-2 mr-7 cursor-pointer"
@@ -37,7 +37,7 @@ export const DefaultModal = ({ isModalOpen, setIsModalOpen, children }) => {
               >
                 <img src={close} className="" alt="close button" />
               </button>
-              <div className="flex flex-col items-center justify-center h-full">
+              <div className="flex flex-col items-center justify-center ">
                 {children}
               </div>
             </motion.div>

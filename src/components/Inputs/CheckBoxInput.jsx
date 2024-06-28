@@ -7,20 +7,20 @@ export const CheckBoxInput = ({
 }) => {
   return (
     <>
-      <fieldset>
+      <fieldset className="flex">
         <legend className="sr-only">Checkboxes</legend>
 
         <div className="space-y-2">
           <label
             htmlFor={htmlFor}
-            className="flex cursor-pointer items-start gap-4"
+            className="flex cursor-pointer items-start gap-[4px]"
           >
             <div className="flex items-center">
               &#8203;
               <input
                 onChange={handleTagChange}
                 type="checkbox"
-                className="size-4 rounded border-gray-300"
+                className="size-4 rounded border-gray-300 "
                 id={id}
                 value={value}
               />

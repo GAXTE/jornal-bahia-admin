@@ -10,6 +10,7 @@ import { FileInput } from "../../components/Inputs/FileInput";
 import { DefaultInput } from "../../components/Inputs/DefaultInput";
 import { CheckBoxInput } from "../../components/Inputs/CheckBoxInput";
 import { SelectInput } from "../../components/Inputs/SelectInput";
+import { YesButton } from "../../components/Buttons/YesButton";
 
 export const NewsPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
@@ -68,38 +69,45 @@ export const NewsPage = () => {
           isModalOpen={isModalOpenCreate}
           setIsModalOpen={setIsModalOpenCreate}
         >
-          <form onSubmit={handleSubmit}>
-            <DefaultInput
-              type={"text"}
-              placeholder={"Título"}
-              handleInputChange={handleInputChange}
-              name={"title"}
-            />
-
-            <FileInput
-              type={"file"}
-              accept={"image/*"}
-              handleFileChange={handleFileChange}
-            />
-
-            {ListAlltags.map((tag) => (
-              <div key={tag.id}>
-                <CheckBoxInput
-                  id={`tag-${tag.id}`}
-                  value={tag.id}
-                  name={tag.name}
-                  htmlFor={`tag-${tag.id}`}
-                  handleTagChange={handleTagChange}
-                />
+          <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+            <div className="flex flex-col gap-6 items-center">
+              <FileInput
+                type={"file"}
+                text={"Escolha uma imagem de capa"}
+                accept={"image/*"}
+                handleFileChange={handleFileChange}
+              />
+              <DefaultInput
+                type={"text"}
+                placeholder={"Título da notícia"}
+                handleInputChange={handleInputChange}
+                name={"title"}
+              />
+              <div className="flex gap-3">
+                {ListAlltags.map((tag) => (
+                  <div key={tag.id}>
+                    <CheckBoxInput
+                      id={`tag-${tag.id}`}
+                      value={tag.id}
+                      name={tag.name}
+                      htmlFor={`tag-${tag.id}`}
+                      handleTagChange={handleTagChange}
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-            <SelectInput
-              name1={"category"}
-              array={categories}
-              handleInputChange={handleInputChange}
-            />
-            <TextRich onChange={handleChange} />
-            <button type="submit">Enviar</button>
+              <SelectInput
+                name1={"category"}
+                array={categories}
+                placeholder={"Escolha uma categoria"}
+                handleInputChange={handleInputChange}
+              />
+            </div>
+            <div className="flex flex-col items-center">
+              <TextRich onChange={handleChange} />
+
+              <YesButton type={"submit"} textButton={"Enviar"} />
+            </div>
           </form>
         </DefaultModal>
 
