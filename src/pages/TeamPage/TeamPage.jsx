@@ -12,13 +12,7 @@ export const TeamPage = () => {
   return (
     <>
       <DefaultTemplate textButton={"Membro"} setIsModalOpenCreate={setIsModalOpenCreate}>
-        textButton={"Membro"}
-        setIsModalOpenCreate={setIsModalOpenCreate}
-      >
-        <DefaultModal
-          isModalOpen={isModalOpenCreate}
-          setIsModalOpen={setIsModalOpenCreate}
-        >
+        <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
           <form action="">
             <DefaultInput
               type={"text"}

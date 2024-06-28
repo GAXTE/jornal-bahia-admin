@@ -12,8 +12,6 @@ export const AddsPage = () => {
   return (
     <>
       <DefaultTemplate textButton={"Propaganda"} setIsModalOpenCreate={setIsModalOpenCreate}>
-        textButton={"Propaganda"}
-        setIsModalOpenCreate={setIsModalOpenCreate}
         <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
           <form action="">
             <DefaultInput
