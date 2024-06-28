@@ -19,7 +19,9 @@ export const TagsList = ({ array }) => {
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Tags</h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
+          Tags
+        </h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full">
           Total = {array.length}
         </span>
@@ -62,7 +64,10 @@ export const TagsList = ({ array }) => {
                         isModalOpenDelete={isModalOpenDelete}
                         setIsModalOpenDelete={setIsModalOpenDelete}
                       />
-                      <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
+                      <DefaultModal
+                        isModalOpen={isModalOpenEdit}
+                        setIsModalOpen={setIsModalEdit}
+                      >
                         <form action="">
                           <DefaultInput
                             type={"text"}
