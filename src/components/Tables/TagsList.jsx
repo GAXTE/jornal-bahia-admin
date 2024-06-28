@@ -5,6 +5,7 @@ import { ConfirmModal } from "../Modals/ConfirmModal";
 
 export const TagsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+  const [isModalOpenEdit, setIsModalEdit] = useState(false);
 
   const truncateTitle = (title) => {
     if (title.length > 100) {
@@ -79,6 +80,19 @@ export const TagsList = ({ array }) => {
                         isModalOpenDelete={isModalOpenDelete}
                         setIsModalOpenDelete={setIsModalOpenDelete}
                       />
+                      <DefaultModal
+                        isModalOpen={isModalOpenEdit}
+                        setIsModalOpen={setIsModalEdit}
+                      >
+                        <form action="">
+                          <DefaultInput
+                            type={"text"}
+                            placeholder={"Nome da tag"}
+                            // handleInputChange={handleInputChange}
+                            name={"name"}
+                          />
+                        </form>
+                      </DefaultModal>
                     </tr>
                   ))}
                 </tbody>

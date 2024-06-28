@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { DefaultModal } from "../../components/Modals/DefaultModal";
 import { CategoryList } from "../../components/Tables/CategoryList";
 import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
+import { DefaultInput } from "../../components/Inputs/DefaultInput";
 
 // Lista de posts de exemplo
 
@@ -30,8 +31,18 @@ export const CategoriesPage = () => {
           setIsModalOpen={setIsModalOpenCreate}
         >
           <form action="">
-            <input type="text" placeholder="nome" />
-            <input type="text" placeholder="descrição" />
+            <DefaultInput
+              type={"text"}
+              placeholder={"Nome da categoria"}
+              // handleInputChange={handleInputChange}
+              name={"name"}
+            />
+            <DefaultInput
+              type={"text"}
+              placeholder={"Descrição"}
+              // handleInputChange={handleInputChange}
+              name={"name"}
+            />
           </form>
         </DefaultModal>
         <CategoryList array={posts} />

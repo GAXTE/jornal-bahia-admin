@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
+import { DefaultModal } from "../Modals/DefaultModal";
+import { DefaultInput } from "../Inputs/DefaultInput";
 
 export const CategoryList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+  const [isModalOpenEdit, setIsModalEdit] = useState(false);
 
   const truncateTitle = (title) => {
     if (title.length > 100) {
@@ -73,12 +76,34 @@ export const CategoryList = ({ array }) => {
                           isModalOpenDelete={isModalOpenDelete}
                           setIsModalOpenDelete={setIsModalOpenDelete}
                         />
-                        <Edit />
+                        <Edit
+                          isModalOpenEdit={isModalOpenEdit}
+                          setIsModalEdit={setIsModalEdit}
+                        />
                       </td>
                       <ConfirmModal
                         isModalOpenDelete={isModalOpenDelete}
                         setIsModalOpenDelete={setIsModalOpenDelete}
                       />
+                      <DefaultModal
+                        isModalOpen={isModalOpenEdit}
+                        setIsModalOpen={setIsModalEdit}
+                      >
+                        <form action="">
+                          <DefaultInput
+                            type={"text"}
+                            placeholder={"Nome da categoria"}
+                            // handleInputChange={handleInputChange}
+                            name={"name"}
+                          />
+                          <DefaultInput
+                            type={"text"}
+                            placeholder={"Descrição"}
+                            // handleInputChange={handleInputChange}
+                            name={"name"}
+                          />
+                        </form>
+                      </DefaultModal>
                     </tr>
                   ))}
                 </tbody>
