@@ -30,7 +30,12 @@ export const TextRich = ({ value = "", onChange }) => {
 
   return (
     <div>
-      <ReactQuill value={text} onChange={handleChange} modules={modules} />
+      <ReactQuill
+        value={text}
+        onChange={handleChange}
+        modules={modules}
+        style={{ maxWidth: "500px", maxHeight: "500px", overflowY: "auto" }}
+      />
     </div>
   );
 };
