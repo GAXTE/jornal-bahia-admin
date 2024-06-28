@@ -1,9 +1,10 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Api } from "../services/api";
 import { useNavigate } from "react-router-dom";
 const UserContext = createContext({});
 export const UserProvider = ({ children }) => {
   const navi = useNavigate();
+  const [ListAllUsers, setListAllUsers] = useState([]);
   const login = async (user) => {
     try {
       const { data } = await Api.post("/user/session", user);
@@ -36,7 +37,20 @@ export const UserProvider = ({ children }) => {
       alert("Codigo invalido");
     }
   };
-  return <UserContext.Provider value={{ login, forgot, validationCode }}>{children}</UserContext.Provider>;
+  const listAllUsers = async () => {
+    try {
+      const { data } = await Api.get("/user");
+      setListAllUsers(data);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    listAllUsers();
+  }, []);
+  return (
+    <UserContext.Provider value={{ login, forgot, validationCode, listAllUsers, ListAllUsers }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export const useUserContext = () => useContext(UserContext);

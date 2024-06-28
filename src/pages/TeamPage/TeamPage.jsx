@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { TeamList } from "../../components/Tables/TeamList";
 import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
+import { useUserContext } from "../../providers/UserContext";
 import { DefaultModal } from "../../components/Modals/DefaultModal";
 import { DefaultInput } from "../../components/Inputs/DefaultInput";
 import { SelectInput } from "../../components/Inputs/SelectInput";
 
 export const TeamPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
+  const { ListAllUsers } = useUserContext();
   return (
     <>
-      <DefaultTemplate
+      <DefaultTemplate textButton={"Membro"} setIsModalOpenCreate={setIsModalOpenCreate}>
         textButton={"Membro"}
         setIsModalOpenCreate={setIsModalOpenCreate}
       >
@@ -43,7 +45,7 @@ export const TeamPage = () => {
             />
           </form>
         </DefaultModal>
-        <TeamList array={[]} />
+        <TeamList array={ListAllUsers} />
       </DefaultTemplate>
     </>
   );

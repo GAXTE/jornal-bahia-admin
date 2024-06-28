@@ -1,7 +1,17 @@
 import React, { useState } from "react";
+import { Copy } from "lucide-react";
 import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
+
+const copyToClipboard = async (text) => {
+  try {
+    await navigator.clipboard.writeText(text);
+    alert("Copiado para a área de transferência!"); // Feedback simples para o usuário
+  } catch (err) {
+    console.error("Falha ao copiar: ", err);
+  }
+};
 
 export const AddsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -16,11 +26,9 @@ export const AddsList = ({ array }) => {
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-          Propaganda
-        </h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Propaganda</h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full">
-          Total = {array.length}
+          Total = {array?.length}
         </span>
       </div>
       <div className="flex flex-col mt-6">
@@ -34,19 +42,31 @@ export const AddsList = ({ array }) => {
                       scope="col"
                       className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
-                      Nome
+                      Descricao
                     </th>
                     <th
                       scope="col"
                       className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
-                      Descrição
+                      Imagem
                     </th>
                     <th
                       scope="col"
                       className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
-                      teste
+                      Video
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                    >
+                      Tipo
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
+                    >
+                      Link
                     </th>
                     <th
                       scope="col"
@@ -57,16 +77,26 @@ export const AddsList = ({ array }) => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                  {array.map((category, index) => (
+                  {array.map((add, index) => (
                     <tr key={index}>
                       <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap dark:text-white">
-                        {truncateTitle(category.title)}
+                        {truncateTitle(add.description)}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {category.category}
+                        <button onClick={() => copyToClipboard(add.imageUrl)}>Copiar</button>
+                        <Copy style={{ maxHeight: "15px", cursor: "pointer" }} />
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {category.date}
+                        <button onClick={() => copyToClipboard(add.videoUrl)}>Copiar</button>
+                        <Copy style={{ maxHeight: "15px", cursor: "pointer" }} />
+                      </td>
+                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                        {add.type == 0 ? "Intitucional" : "Normal"}
+                        <Copy style={{ maxHeight: "15px", cursor: "pointer" }} />
+                      </td>
+                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                        <button onClick={() => copyToClipboard(add.videoUrl)}>Copiar</button>
+                        <Copy style={{ maxHeight: "15px", cursor: "pointer" }} />
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
                         <Trash

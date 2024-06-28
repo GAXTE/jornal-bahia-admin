@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
 import { AddsList } from "../../components/Tables/AddsList";
+import { usePublicityContext } from "../../providers/PublicityContext";
 import { DefaultModal } from "../../components/Modals/DefaultModal";
 import { DefaultInput } from "../../components/Inputs/DefaultInput";
 import { FileInput } from "../../components/Inputs/FileInput";
 
 export const AddsPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
+  const { ListAllPublicity } = usePublicityContext();
   return (
     <>
-      <DefaultTemplate
+      <DefaultTemplate textButton={"Propaganda"} setIsModalOpenCreate={setIsModalOpenCreate}>
         textButton={"Propaganda"}
         setIsModalOpenCreate={setIsModalOpenCreate}
       >
@@ -31,7 +33,7 @@ export const AddsPage = () => {
             />
           </form>
         </DefaultModal>
-        <AddsList array={[]} />
+        <AddsList array={ListAllPublicity} />
       </DefaultTemplate>
     </>
   );

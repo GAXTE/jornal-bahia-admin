@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { TagsList } from "../../components/Tables/TagsList";
 import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
+import { useTagsContext } from "../../providers/TagsContext";
 import { DefaultModal } from "../../components/Modals/DefaultModal";
 import { DefaultInput } from "../../components/Inputs/DefaultInput";
 
 export const TagsPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
+  const { ListAlltags } = useTagsContext();
   return (
     <>
-      <DefaultTemplate
+      <DefaultTemplate textButton={"Tag"} setIsModalOpenCreate={setIsModalOpenCreate}>
         textButton={"Tag"}
         setIsModalOpenCreate={setIsModalOpenCreate}
       >
@@ -25,7 +27,7 @@ export const TagsPage = () => {
             />
           </form>
         </DefaultModal>
-        <TagsList array={[]} />
+        <TagsList array={ListAlltags} />
       </DefaultTemplate>
     </>
   );
