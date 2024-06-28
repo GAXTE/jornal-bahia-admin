@@ -6,21 +6,19 @@ import { ConfirmModal } from "../Modals/ConfirmModal";
 export const TeamList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
 
-  const truncateTitle = (title) => {
-    if (title.length > 100) {
-      return `${title.substring(0, 80)}...`;
+  const truncateTitle = (name) => {
+    if (name.length > 100) {
+      return `${name.substring(0, 80)}...`;
     }
-    return title;
+    return name;
   };
 
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-          Equipe
-        </h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Equipe</h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full">
-          Total = {array.length}
+          Total = {array?.length}
         </span>
       </div>
       <div className="flex flex-col mt-6">
@@ -40,13 +38,13 @@ export const TeamList = ({ array }) => {
                       scope="col"
                       className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
-                      Descrição
+                      Email
                     </th>
                     <th
                       scope="col"
                       className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
-                      teste
+                      Função
                     </th>
                     <th
                       scope="col"
@@ -57,16 +55,16 @@ export const TeamList = ({ array }) => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                  {array.map((category, index) => (
+                  {array?.map((team, index) => (
                     <tr key={index}>
                       <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap dark:text-white">
-                        {truncateTitle(category.title)}
+                        {truncateTitle(team.username)}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {category.category}
+                        {team.email}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {category.date}
+                        {team.role?.name}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
                         <Trash
