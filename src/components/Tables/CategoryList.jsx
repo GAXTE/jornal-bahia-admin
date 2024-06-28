@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
+import { useCategoryContext } from "../../providers/CategoryContext";
 
 export const CategoryList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+  const { ListAllCategories } = useCategoryContext();
 
   const truncateTitle = (title) => {
     if (title.length > 100) {
@@ -16,11 +18,9 @@ export const CategoryList = ({ array }) => {
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-          Categorias
-        </h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Categorias</h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full">
-          Total = {array.length}
+          Total = {ListAllCategories?.length}
         </span>
       </div>
       <div className="flex flex-col mt-6">
@@ -46,27 +46,18 @@ export const CategoryList = ({ array }) => {
                       scope="col"
                       className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
-                      teste
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
                       Options
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                  {array.map((category, index) => (
+                  {ListAllCategories?.map((category, index) => (
                     <tr key={index}>
                       <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap dark:text-white">
-                        {truncateTitle(category.title)}
+                        {truncateTitle(category.name)}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {category.category}
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {category.date}
+                        {category.description}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
                         <Trash
