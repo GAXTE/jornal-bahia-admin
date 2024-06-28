@@ -7,6 +7,7 @@ import App from "./App";
 import { CategoryProvider } from "./providers/CategoryContext";
 import { PostProvider } from "./providers/PostContext";
 import { TagsProvider } from "./providers/TagsContext";
+import { PublicityProvider } from "./providers/PublicityContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -16,7 +17,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <PostProvider>
             <CategoryProvider>
               <TagsProvider>
-                <App />
+                <PublicityProvider>
+                  <App />
+                </PublicityProvider>
               </TagsProvider>
             </CategoryProvider>
           </PostProvider>
