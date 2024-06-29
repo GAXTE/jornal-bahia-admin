@@ -4,10 +4,33 @@ import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
 import { DefaultModal } from "../Modals/DefaultModal";
 import { DefaultInput } from "../Inputs/DefaultInput";
+import { useCategoryContext } from "../../providers/CategoryContext";
+import { useNavigate } from "react-router-dom";
 
 export const CategoryList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isModalOpenEdit, setIsModalEdit] = useState(false);
+  const { deleteCategory } = useCategoryContext();
+  const navi = useNavigate();
+
+  const getCategoryFromUrl = () => {
+    const params = new URLSearchParams(location.search);
+    return params.get("categoryId");
+  };
+
+  const deleteCategoryById = () => {
+    const categoryId = getCategoryFromUrl();
+    if (categoryId) {
+      deleteCategory(categoryId);
+      setIsModalOpenDelete(false);
+      navi(location.pathname);
+    }
+  };
+
+  const handleDeleteClick = (id) => {
+    setIsModalOpenDelete(true);
+    navi(`${location.pathname}?categoryId=${id}`);
+  };
 
   const truncateTitle = (title) => {
     if (title.length > 100) {
@@ -61,23 +84,15 @@ export const CategoryList = ({ array }) => {
                         {category.description}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
-                        <Trash
-                          isModalOpenDelete={isModalOpenDelete}
-                          setIsModalOpenDelete={setIsModalOpenDelete}
-                        />
-                        <Edit
-                          isModalOpenEdit={isModalOpenEdit}
-                          setIsModalEdit={setIsModalEdit}
-                        />
+                        <Trash setIsModalOpenDelete={() => handleDeleteClick(category.id)} />
+                        <Edit isModalOpenEdit={isModalOpenEdit} setIsModalEdit={setIsModalEdit} />
                       </td>
                       <ConfirmModal
                         isModalOpenDelete={isModalOpenDelete}
                         setIsModalOpenDelete={setIsModalOpenDelete}
+                        onConfirm={deleteCategoryById}
                       />
-                      <DefaultModal
-                        isModalOpen={isModalOpenEdit}
-                        setIsModalOpen={setIsModalEdit}
-                      >
+                      <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
                         <form action="">
                           <DefaultInput
                             type={"text"}

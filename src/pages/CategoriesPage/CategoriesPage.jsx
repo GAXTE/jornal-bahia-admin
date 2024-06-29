@@ -27,8 +27,8 @@ export const CategoriesPage = () => {
       name: categoryName,
       description: categoryDescription,
     };
-    // createCategory(category);
-    console.log(category);
+    createCategory(category);
+    // console.log(category);
   };
 
   return (
@@ -50,6 +50,7 @@ export const CategoriesPage = () => {
               name="categoryDescription"
               value={categoryDescription}
             />
+            <button type="submit">submit</button>
           </form>
         </DefaultModal>
         <CategoryList array={ListAllCategories} />
