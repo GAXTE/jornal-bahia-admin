@@ -14,11 +14,31 @@ export const TagsProvider = ({ children }) => {
       setListAllTags(data);
     } catch (error) {}
   };
+  const createTag = async (name) => {
+    const obj = {
+      name: name,
+    };
+    try {
+      const { data } = await Api.post("/tag", obj);
+      console.log(data);
+      getAllTags();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteTag = async (id) => {
+    try {
+      const { data } = await Api.delete(`/tag/${id}`);
+      getAllTags();
+    } catch (error) {}
+  };
   useEffect(() => {
     getAllTags();
   }, []);
 
-  return <TagsContext.Provider value={{ ListAlltags }}>{children}</TagsContext.Provider>;
+  return (
+    <TagsContext.Provider value={{ ListAlltags, createTag, deleteTag }}>{children}</TagsContext.Provider>
+  );
 };
 
 export const useTagsContext = () => useContext(TagsContext);
