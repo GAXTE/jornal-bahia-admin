@@ -4,6 +4,7 @@ import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
 import { DefaultModal } from "../Modals/DefaultModal";
 import { DefaultInput } from "../Inputs/DefaultInput";
+import { YesButton } from "../Buttons/YesButton";
 
 export const TagsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -58,27 +59,33 @@ export const TagsList = ({ array }) => {
                           isModalOpenDelete={isModalOpenDelete}
                           setIsModalOpenDelete={setIsModalOpenDelete}
                         />
-                        <Edit />
+                        <Edit
+                          isModalOpenEdit={isModalOpenEdit}
+                          setIsModalEdit={setIsModalEdit}
+                        />
                       </td>
-                      <ConfirmModal
-                        isModalOpenDelete={isModalOpenDelete}
-                        setIsModalOpenDelete={setIsModalOpenDelete}
-                      />
-                      <DefaultModal
-                        isModalOpen={isModalOpenEdit}
-                        setIsModalOpen={setIsModalEdit}
-                      >
-                        <form action="">
-                          <DefaultInput
-                            type={"text"}
-                            placeholder={"Nome da tag"}
-                            // handleInputChange={handleInputChange}
-                            name={"name"}
-                          />
-                        </form>
-                      </DefaultModal>
                     </tr>
                   ))}
+                  <ConfirmModal
+                    isModalOpenDelete={isModalOpenDelete}
+                    setIsModalOpenDelete={setIsModalOpenDelete}
+                  />
+                  <DefaultModal
+                    isModalOpen={isModalOpenEdit}
+                    setIsModalOpen={setIsModalEdit}
+                  >
+                    <form action="">
+                      <div className="flex flex-col gap-6 items-center">
+                        <DefaultInput
+                          type={"text"}
+                          placeholder={"Nome da tag"}
+                          // handleInputChange={handleInputChange}
+                          name={"name"}
+                        />
+                        <YesButton type={"submit"} textButton={"Enviar"} />
+                      </div>
+                    </form>
+                  </DefaultModal>
                 </tbody>
               </table>
             </div>

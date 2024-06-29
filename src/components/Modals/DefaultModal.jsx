@@ -29,15 +29,15 @@ export const DefaultModal = ({ isModalOpen, setIsModalOpen, children }) => {
               // exit={{ opacity: 0, x: 50 }}
               ref={modalContentRef}
               onClick={(e) => e.stopPropagation()}
-              className=" bg-white  flex flex-col  items-center   "
+              className=" bg-white  flex flex-col  items-center gap-2  "
             >
               <button
-                className="self-end sticky top-2 mt-2 mr-7 cursor-pointer"
+                className="self-end mt-3 mr-3  cursor-pointer"
                 onClick={toggleModal}
               >
                 <img src={close} className="" alt="close button" />
               </button>
-              <div className="flex flex-col items-center justify-center ">
+              <div className="flex flex-col items-center justify-center px-6 pb-6">
                 {children}
               </div>
             </motion.div>

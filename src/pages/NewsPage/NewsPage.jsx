@@ -103,7 +103,7 @@ export const NewsPage = () => {
                 handleInputChange={handleInputChange}
               />
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col gap-6 items-center">
               <TextRich onChange={handleChange} />
 
               <YesButton type={"submit"} textButton={"Enviar"} />

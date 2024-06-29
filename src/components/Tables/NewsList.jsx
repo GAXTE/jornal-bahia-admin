@@ -6,12 +6,14 @@ import { DefaultModal } from "../Modals/DefaultModal";
 import { TextRich } from "../TextRich/TextRich";
 import { DefaultInput } from "../Inputs/DefaultInput";
 import { YesButton } from "../Buttons/YesButton";
+import { SelectInput } from "../Inputs/SelectInput";
 
 export const NewsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isModalOpenEdit, setIsModalEdit] = useState(false);
   const [postDelete, setPostDelete] = useState();
   const [editContent, setEditContent] = useState("");
+  const categories = JSON.parse(localStorage.getItem("categories"));
 
   const truncateTitle = (title) => {
     if (title.length > 100) {
@@ -119,6 +121,12 @@ export const NewsList = ({ array }) => {
                           placeholder={"Título da notícia"}
                           // handleInputChange={handleInputChange}
                           name={"title"}
+                        />
+                        <SelectInput
+                          name1={"category"}
+                          array={categories}
+                          placeholder={"Escolha uma categoria"}
+                          handleInputChange={handleInputChange}
                         />
                         <TextRich onChange={handleChange} />
                         <YesButton type={"submit"} textButton={"Editar"} />
