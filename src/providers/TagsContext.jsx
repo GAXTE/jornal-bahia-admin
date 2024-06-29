@@ -20,11 +20,8 @@ export const TagsProvider = ({ children }) => {
     };
     try {
       const { data } = await Api.post("/tag", obj);
-      console.log(data);
       getAllTags();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const deleteTag = async (id) => {
     try {
