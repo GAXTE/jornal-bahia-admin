@@ -7,24 +7,28 @@ import { DefaultInput } from "../../components/Inputs/DefaultInput";
 
 export const TagsPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
+  const { createTag } = useTagsContext();
+  const [name, setName] = useState("");
   const { ListAlltags } = useTagsContext();
+  const handleInputChange = (e) => {
+    setName(e.target.value);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createTag(name);
+  };
   return (
     <>
-      <DefaultTemplate
-        textButton={"Tag"}
-        setIsModalOpenCreate={setIsModalOpenCreate}
-      >
-        <DefaultModal
-          isModalOpen={isModalOpenCreate}
-          setIsModalOpen={setIsModalOpenCreate}
-        >
-          <form action="">
+      <DefaultTemplate textButton={"Tag"} setIsModalOpenCreate={setIsModalOpenCreate}>
+        <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
+          <form onSubmit={handleSubmit}>
             <DefaultInput
               type={"text"}
               placeholder={"Nome da tag"}
-              // handleInputChange={handleInputChange}
+              handleInputChange={handleInputChange}
               name={"name"}
             />
+            <button type="submit">oi</button>
           </form>
         </DefaultModal>
         <TagsList array={ListAlltags} />
