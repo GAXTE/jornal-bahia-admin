@@ -16,10 +16,6 @@ export const CategoryProvider = ({ children }) => {
     } catch (error) {}
   };
 
-  useEffect(() => {
-    getAllCategories();
-  }, []);
-
   const createCategory = async (category) => {
     try {
       const { data } = await Api.post("/category", category);
@@ -32,11 +28,14 @@ export const CategoryProvider = ({ children }) => {
     };
     try {
       const { data } = await Api.delete("/category", obj);
-      console.log(data);
+      getAllCategories();
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    getAllCategories();
+  }, []);
   return (
     <CategoryContext.Provider value={{ ListAllCategories, createCategory, deleteCategory }}>
       {children}
