@@ -67,13 +67,31 @@ export const UserProvider = ({ children }) => {
       console.log(error);
     }
   };
+  const updateUser = async (id, user) => {
+    try {
+      const { data } = await Api.put(`/user/${id}`, user);
+      listAllUsers();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     listAllUsers();
     listAllRoles();
   }, []);
   return (
     <UserContext.Provider
-      value={{ login, forgot, validationCode, listAllUsers, ListAllUsers, roleList, createUser, deleteUser }}
+      value={{
+        login,
+        forgot,
+        validationCode,
+        listAllUsers,
+        ListAllUsers,
+        roleList,
+        createUser,
+        deleteUser,
+        updateUser,
+      }}
     >
       {children}
     </UserContext.Provider>

@@ -39,7 +39,6 @@ export const AddsList = ({ array }) => {
   };
 
   const handleEditClick = (add) => () => {
-    // Ajuste aqui para retornar uma função
     setSelectedAddId(add.id);
     setEditValues({ link: add.description });
     setIsModalEdit(true);
@@ -164,7 +163,7 @@ export const AddsList = ({ array }) => {
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between h-[56px]">
                         <>
                           <Trash setIsModalOpenDelete={() => handleDeleteClick(add.id)} />
-                          <Edit handleEditClick={handleEditClick(add)} /> {/* Passa a função corretamente */}
+                          <Edit handleEditClick={handleEditClick(add)} />
                         </>
                       </td>
                     </tr>
