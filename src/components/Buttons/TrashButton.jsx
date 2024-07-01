@@ -1,12 +1,11 @@
 import trashIcon from "../../assets/trash-2.svg";
 
-export const Trash = ({ isModalOpenDelete, setIsModalOpenDelete, setPostDelete, uuid }) => {
+export const Trash = ({ isModalOpenDelete, setIsModalOpenDelete }) => {
   return (
     <>
       <button
         onClick={() => {
           setIsModalOpenDelete(true);
-          setPostDelete(uuid);
         }}
       >
         <img

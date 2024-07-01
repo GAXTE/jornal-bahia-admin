@@ -1,18 +1,7 @@
-export const DefaultInput = ({
-  label,
-  type,
-  placeholder,
-  handleInputChange,
-  name,
-}) => {
+export const DefaultInput = ({ type, placeholder, handleInputChange, name }) => {
   return (
     <>
-      {/* <label
-        htmlFor={label}
-        className="block text-sm text-gray-500 dark:text-gray-300"
-      ></label> */}
-
-      <input
+       <input
         type={type}
         placeholder={placeholder}
         onChange={handleInputChange}

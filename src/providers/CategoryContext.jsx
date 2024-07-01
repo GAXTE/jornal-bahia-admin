@@ -16,18 +16,34 @@ export const CategoryProvider = ({ children }) => {
     } catch (error) {}
   };
 
-  useEffect(() => {
-    getAllCategories();
-  }, []);
-
   const createCategory = async (category) => {
     try {
       const { data } = await Api.post("/category", category);
       getAllCategories();
     } catch (error) {}
   };
+  const deleteCategory = async (id) => {
+    const obj = {
+      data: { id },
+    };
+    try {
+      const { data } = await Api.delete("/category", obj);
+      getAllCategories();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const updateCategory = async (category) => {
+    try {
+      const { data } = await Api.put("/category", category);
+      getAllCategories();
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getAllCategories();
+  }, []);
   return (
-    <CategoryContext.Provider value={{ ListAllCategories, createCategory }}>
+    <CategoryContext.Provider value={{ ListAllCategories, createCategory, deleteCategory, updateCategory }}>
       {children}
     </CategoryContext.Provider>
   );

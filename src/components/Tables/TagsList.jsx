@@ -4,11 +4,33 @@ import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
 import { DefaultModal } from "../Modals/DefaultModal";
 import { DefaultInput } from "../Inputs/DefaultInput";
-import { YesButton } from "../Buttons/YesButton";
+import { useTagsContext } from "../../providers/TagsContext";
+import { useNavigate } from "react-router-dom";
 
 export const TagsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isModalOpenEdit, setIsModalEdit] = useState(false);
+  const { deleteTag } = useTagsContext();
+  const navi = useNavigate();
+
+  const getTagFromUrl = () => {
+    const params = new URLSearchParams(location.search);
+    return params.get("tagId");
+  };
+
+  const deleteTagById = () => {
+    const tagId = getTagFromUrl();
+    if (tagId) {
+      deleteTag(tagId);
+      setIsModalOpenDelete(false);
+      navi(location.pathname);
+    }
+  };
+
+  const handleDeleteClick = (id) => {
+    setIsModalOpenDelete(true);
+    navi(`${location.pathname}?tagId=${id}`);
+  };
 
   const truncateTitle = (title) => {
     if (title.length > 100) {
@@ -20,9 +42,7 @@ export const TagsList = ({ array }) => {
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-          Tags
-        </h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Tags</h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full">
           Total = {array.length}
         </span>
@@ -55,37 +75,26 @@ export const TagsList = ({ array }) => {
                         {truncateTitle(category.name)}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
-                        <Trash
-                          isModalOpenDelete={isModalOpenDelete}
-                          setIsModalOpenDelete={setIsModalOpenDelete}
-                        />
-                        <Edit
-                          isModalOpenEdit={isModalOpenEdit}
-                          setIsModalEdit={setIsModalEdit}
-                        />
+                        <Trash setIsModalOpenDelete={() => handleDeleteClick(category.id)} />
+                        <Edit />
                       </td>
+                      <ConfirmModal
+                        isModalOpenDelete={isModalOpenDelete}
+                        setIsModalOpenDelete={setIsModalOpenDelete}
+                        onConfirm={deleteTagById}
+                      />
+                      <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
+                        <form action="">
+                          <DefaultInput
+                            type={"text"}
+                            placeholder={"Nome da tag"}
+                            // handleInputChange={handleInputChange}
+                            name={"name"}
+                          />
+                        </form>
+                      </DefaultModal>
                     </tr>
                   ))}
-                  <ConfirmModal
-                    isModalOpenDelete={isModalOpenDelete}
-                    setIsModalOpenDelete={setIsModalOpenDelete}
-                  />
-                  <DefaultModal
-                    isModalOpen={isModalOpenEdit}
-                    setIsModalOpen={setIsModalEdit}
-                  >
-                    <form action="">
-                      <div className="flex flex-col gap-6 items-center">
-                        <DefaultInput
-                          type={"text"}
-                          placeholder={"Nome da tag"}
-                          // handleInputChange={handleInputChange}
-                          name={"name"}
-                        />
-                        <YesButton type={"submit"} textButton={"Enviar"} />
-                      </div>
-                    </form>
-                  </DefaultModal>
                 </tbody>
               </table>
             </div>

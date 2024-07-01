@@ -2,15 +2,31 @@ import React, { useState } from "react";
 import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
-import { DefaultModal } from "../Modals/DefaultModal";
-import { DefaultInput } from "../Inputs/DefaultInput";
-import { SelectInput } from "../Inputs/SelectInput";
-import { YesButton } from "../Buttons/YesButton";
+import { useUserContext } from "../../providers/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export const TeamList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
-  const [isModalOpenEdit, setIsModalEdit] = useState(false);
+  const { deleteUser } = useUserContext();
+  const navi = useNavigate();
+  const getUserIdFromUrl = () => {
+    const params = new URLSearchParams(location.search);
+    return params.get("userId");
+  };
+  const deleteUserById = () => {
+    const UserId = getUserIdFromUrl();
+    if (UserId) {
+      console.log();
+      deleteUser(UserId);
+      setIsModalOpenDelete(false);
+      navi(location.pathname);
+    }
+  };
 
+  const handleDeleteClick = (id) => {
+    setIsModalOpenDelete(true);
+    navi(`${location.pathname}?userId=${id}`);
+  };
   const truncateTitle = (name) => {
     if (name.length > 100) {
       return `${name.substring(0, 80)}...`;
@@ -21,9 +37,7 @@ export const TeamList = ({ array }) => {
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-          Equipe
-        </h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Equipe</h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full">
           Total = {array?.length}
         </span>
@@ -74,55 +88,16 @@ export const TeamList = ({ array }) => {
                         {team.role?.name}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
-                        <Trash
-                          isModalOpenDelete={isModalOpenDelete}
-                          setIsModalOpenDelete={setIsModalOpenDelete}
-                        />
-                        <Edit
-                          isModalOpenEdit={isModalOpenEdit}
-                          setIsModalEdit={setIsModalEdit}
-                        />
+                        <Trash setIsModalOpenDelete={() => handleDeleteClick(team.id)} />
+                        <Edit />
                       </td>
+                      <ConfirmModal
+                        isModalOpenDelete={isModalOpenDelete}
+                        setIsModalOpenDelete={setIsModalOpenDelete}
+                        onConfirm={deleteUserById}
+                      />
                     </tr>
                   ))}
-                  <ConfirmModal
-                    isModalOpenDelete={isModalOpenDelete}
-                    setIsModalOpenDelete={setIsModalOpenDelete}
-                  />
-                  <DefaultModal
-                    isModalOpen={isModalOpenEdit}
-                    setIsModalOpen={setIsModalEdit}
-                  >
-                    <form action="">
-                      <div className="flex flex-col gap-6 items-center">
-                        <DefaultInput
-                          type={"text"}
-                          placeholder={"Nome completo"}
-                          // handleInputChange={handleInputChange}
-                          name={"name"}
-                        />
-                        <DefaultInput
-                          type={"email"}
-                          placeholder={"Email"}
-                          // handleInputChange={handleInputChange}
-                          name={"email"}
-                        />
-                        <DefaultInput
-                          type={"password"}
-                          placeholder={"Senha"}
-                          // handleInputChange={handleInputChange}
-                          name={"password"}
-                        />
-                        <SelectInput
-                          name1={"role"}
-                          array={[]}
-                          placeholder={"Escolha o cargo"}
-                          // handleInputChange={handleInputChange}
-                        />
-                        <YesButton type={"submit"} textButton={"Enviar"} />
-                      </div>
-                    </form>
-                  </DefaultModal>
                 </tbody>
               </table>
             </div>
