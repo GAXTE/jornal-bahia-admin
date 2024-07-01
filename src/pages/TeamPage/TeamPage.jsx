@@ -8,35 +8,52 @@ import { SelectInput } from "../../components/Inputs/SelectInput";
 
 export const TeamPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
-  const { ListAllUsers } = useUserContext();
+  const [formValues, setFormValues] = useState({
+    username: "",
+    email: "",
+    password: "",
+    roleId: "",
+  });
+  const { ListAllUsers, roleList, createUser } = useUserContext();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createUser(formValues);
+  };
+
   return (
     <>
       <DefaultTemplate textButton={"Membro"} setIsModalOpenCreate={setIsModalOpenCreate}>
         <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
-          <form action="">
+          <form onSubmit={handleSubmit}>
             <DefaultInput
               type={"text"}
               placeholder={"Nome completo"}
-              // handleInputChange={handleInputChange}
-              name={"name"}
+              handleInputChange={handleInputChange}
+              name={"username"}
             />
             <DefaultInput
               type={"email"}
               placeholder={"Email"}
-              // handleInputChange={handleInputChange}
+              handleInputChange={handleInputChange}
               name={"email"}
             />
             <DefaultInput
               type={"password"}
               placeholder={"Senha"}
-              // handleInputChange={handleInputChange}
+              handleInputChange={handleInputChange}
               name={"password"}
             />
-            <SelectInput
-              name1={"role"}
-              array={[]}
-              // handleInputChange={handleInputChange}
-            />
+            <SelectInput name1={"roleId"} array={roleList} handleInputChange={handleInputChange} />
+            <button type="submit">Enviar</button>
           </form>
         </DefaultModal>
         <TeamList array={ListAllUsers} />
