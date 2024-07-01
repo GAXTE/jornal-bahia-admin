@@ -5,6 +5,7 @@ import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
 import { useCategoryContext } from "../../providers/CategoryContext";
 import { DefaultInput } from "../../components/Inputs/DefaultInput";
 import { YesButton } from "../../components/Buttons/YesButton";
+import { TextArea } from "../../components/Inputs/TextArea";
 
 export const CategoriesPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
@@ -44,9 +45,9 @@ export const CategoriesPage = () => {
                 name="categoryName"
                 value={categoryName}
               />
-              <DefaultInput
+              <TextArea
                 type="text"
-                placeholder="Descrição"
+                placeholder="Nome da categoria"
                 handleInputChange={handleInputChange}
                 name="categoryDescription"
                 value={categoryDescription}

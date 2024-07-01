@@ -136,7 +136,13 @@ export const CategoryList = ({ array }) => {
                           name={"name"}
                           value={editValues.name}
                         />
-                        <TextArea />
+                        <TextArea
+                          type={"text"}
+                          placeholder={"Nome da categoria"}
+                          handleInputChange={handleInputChange}
+                          name={"description"}
+                          value={editValues.description}
+                        />
                         <YesButton type={"submit"} textButton={"Enviar"} />
                       </div>
                     </form>
