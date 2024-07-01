@@ -4,6 +4,7 @@ import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
 import { useTagsContext } from "../../providers/TagsContext";
 import { DefaultModal } from "../../components/Modals/DefaultModal";
 import { DefaultInput } from "../../components/Inputs/DefaultInput";
+import { YesButton } from "../../components/Buttons/YesButton";
 
 export const TagsPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
@@ -19,12 +20,15 @@ export const TagsPage = () => {
           setIsModalOpen={setIsModalOpenCreate}
         >
           <form action="">
-            <DefaultInput
-              type={"text"}
-              placeholder={"Nome da tag"}
-              // handleInputChange={handleInputChange}
-              name={"name"}
-            />
+            <div className="flex flex-col gap-6 items-center">
+              <DefaultInput
+                type={"text"}
+                placeholder={"Nome da tag"}
+                // handleInputChange={handleInputChange}
+                name={"name"}
+              />
+              <YesButton type={"submit"} textButton={"Enviar"} />
+            </div>
           </form>
         </DefaultModal>
         <TagsList array={ListAlltags} />

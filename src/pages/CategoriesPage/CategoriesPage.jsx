@@ -4,6 +4,8 @@ import { CategoryList } from "../../components/Tables/CategoryList";
 import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
 import { useCategoryContext } from "../../providers/CategoryContext";
 import { DefaultInput } from "../../components/Inputs/DefaultInput";
+import { TextArea } from "../../components/Inputs/TextArea";
+import { YesButton } from "../../components/Buttons/YesButton";
 
 export const CategoriesPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
@@ -27,8 +29,7 @@ export const CategoriesPage = () => {
       name: categoryName,
       description: categoryDescription,
     };
-    // createCategory(category);
-    console.log(category);
+    createCategory(category);
   };
 
   return (
@@ -50,6 +51,8 @@ export const CategoriesPage = () => {
               name="categoryDescription"
               value={categoryDescription}
             />
+            <TextArea />
+            <YesButton type={"submit"} textButton={"Enviar"} />
           </form>
         </DefaultModal>
         <CategoryList array={ListAllCategories} />

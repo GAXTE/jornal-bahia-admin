@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
+import { DefaultModal } from "../Modals/DefaultModal";
+import { DefaultInput } from "../Inputs/DefaultInput";
+import { SelectInput } from "../Inputs/SelectInput";
+import { YesButton } from "../Buttons/YesButton";
 
 export const TeamList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+  const [isModalOpenEdit, setIsModalEdit] = useState(false);
 
   const truncateTitle = (name) => {
     if (name.length > 100) {
@@ -16,7 +21,9 @@ export const TeamList = ({ array }) => {
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Equipe</h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
+          Equipe
+        </h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full">
           Total = {array?.length}
         </span>
@@ -71,14 +78,51 @@ export const TeamList = ({ array }) => {
                           isModalOpenDelete={isModalOpenDelete}
                           setIsModalOpenDelete={setIsModalOpenDelete}
                         />
-                        <Edit />
+                        <Edit
+                          isModalOpenEdit={isModalOpenEdit}
+                          setIsModalEdit={setIsModalEdit}
+                        />
                       </td>
-                      <ConfirmModal
-                        isModalOpenDelete={isModalOpenDelete}
-                        setIsModalOpenDelete={setIsModalOpenDelete}
-                      />
                     </tr>
                   ))}
+                  <ConfirmModal
+                    isModalOpenDelete={isModalOpenDelete}
+                    setIsModalOpenDelete={setIsModalOpenDelete}
+                  />
+                  <DefaultModal
+                    isModalOpen={isModalOpenEdit}
+                    setIsModalOpen={setIsModalEdit}
+                  >
+                    <form action="">
+                      <div className="flex flex-col gap-6 items-center">
+                        <DefaultInput
+                          type={"text"}
+                          placeholder={"Nome completo"}
+                          // handleInputChange={handleInputChange}
+                          name={"name"}
+                        />
+                        <DefaultInput
+                          type={"email"}
+                          placeholder={"Email"}
+                          // handleInputChange={handleInputChange}
+                          name={"email"}
+                        />
+                        <DefaultInput
+                          type={"password"}
+                          placeholder={"Senha"}
+                          // handleInputChange={handleInputChange}
+                          name={"password"}
+                        />
+                        <SelectInput
+                          name1={"role"}
+                          array={[]}
+                          placeholder={"Escolha o cargo"}
+                          // handleInputChange={handleInputChange}
+                        />
+                        <YesButton type={"submit"} textButton={"Enviar"} />
+                      </div>
+                    </form>
+                  </DefaultModal>
                 </tbody>
               </table>
             </div>

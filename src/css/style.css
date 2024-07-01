@@ -1,10 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=fallback');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=fallback");
 
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
 
 /* Additional styles */
-@import 'additional-styles/utility-patterns.css';
-@import 'additional-styles/flatpickr.css';
+@import "additional-styles/utility-patterns.css";
+@import "additional-styles/flatpickr.css";
 
-@import 'tailwindcss/utilities';
+@import "tailwindcss/utilities";
+
+.text-rich-editor .ql-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: white;
+  max-width: 500px;
+}
+
+.text-rich-editor .ql-container {
+  height: 250px;
+  max-height: 250px;
+  overflow-y: auto;
+  max-width: 500px;
+}
