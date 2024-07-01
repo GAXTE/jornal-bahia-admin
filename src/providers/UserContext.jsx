@@ -5,6 +5,7 @@ const UserContext = createContext({});
 export const UserProvider = ({ children }) => {
   const navi = useNavigate();
   const [ListAllUsers, setListAllUsers] = useState([]);
+  const [roleList, setRoleList] = useState();
   const login = async (user) => {
     try {
       const { data } = await Api.post("/user/session", user);
@@ -43,11 +44,28 @@ export const UserProvider = ({ children }) => {
       setListAllUsers(data);
     } catch (error) {}
   };
+  const listAllRoles = async () => {
+    try {
+      const { data } = await Api.get("/role");
+      setRoleList(data);
+    } catch (error) {}
+  };
+  const createUser = async (user) => {
+    try {
+      const { data } = await Api.post("/user", user);
+      listAllUsers();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     listAllUsers();
+    listAllRoles();
   }, []);
   return (
-    <UserContext.Provider value={{ login, forgot, validationCode, listAllUsers, ListAllUsers }}>
+    <UserContext.Provider
+      value={{ login, forgot, validationCode, listAllUsers, ListAllUsers, roleList, createUser }}
+    >
       {children}
     </UserContext.Provider>
   );
