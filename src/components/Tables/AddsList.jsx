@@ -8,6 +8,8 @@ import { DefaultInput } from "../Inputs/DefaultInput";
 import { FileInput } from "../Inputs/FileInput";
 import { SelectInput } from "../Inputs/SelectInput";
 import { YesButton } from "../Buttons/YesButton";
+import { usePublicityContext } from "../../providers/PublicityContext";
+import { useNavigate } from "react-router-dom";
 
 const copyToClipboard = async (text) => {
   try {
@@ -21,6 +23,10 @@ const copyToClipboard = async (text) => {
 export const AddsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isModalOpenEdit, setIsModalEdit] = useState(false);
+  const [editValues, setEditValues] = useState({ link: "" });
+  const [selectedAddId, setSelectedAddId] = useState(null);
+  const { deleteAdd, updateAdd } = usePublicityContext();
+  const navi = useNavigate();
   const types = [
     { name: "banner", id: 0 },
     { name: "normal", id: 1 },
@@ -32,9 +38,49 @@ export const AddsList = ({ array }) => {
     return title;
   };
 
-  const edit = () => {
+  const handleEditClick = (add) => () => {
+    // Ajuste aqui para retornar uma função
+    setSelectedAddId(add.id);
+    setEditValues({ link: add.description });
     setIsModalEdit(true);
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditValues({
+      ...editValues,
+      [name]: value,
+    });
+  };
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    const { link } = editValues;
+    const filteredValues = {};
+    if (link.trim() !== "") filteredValues.link = link;
+    updateAdd(selectedAddId, link);
+    setIsModalEdit(false);
+  };
+
+  const getAddFromUrl = () => {
+    const params = new URLSearchParams(location.search);
+    return params.get("addId");
+  };
+
+  const deleteAddById = () => {
+    const addId = getAddFromUrl();
+    if (addId) {
+      deleteAdd(addId);
+      setIsModalOpenDelete(false);
+      navi(location.pathname);
+    }
+  };
+
+  const handleDeleteClick = (id) => {
+    setIsModalOpenDelete(true);
+    navi(`${location.pathname}?addId=${id}`);
+  };
+
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
@@ -107,21 +153,18 @@ export const AddsList = ({ array }) => {
                         </button>
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {add.type == 0 ? "Intitucional" : "Normal"}
+                        {add.type === 0 ? "Institucional" : "Normal"}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        <button onClick={() => copyToClipboard(add.videoUrl)}>
+                        <button onClick={() => copyToClipboard(add.link)}>
                           Copiar Link
                           <Copy style={{ maxHeight: "15px", cursor: "pointer" }} />
                         </button>
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between h-[56px]">
                         <>
-                          <Trash
-                            isModalOpenDelete={isModalOpenDelete}
-                            setIsModalOpenDelete={setIsModalOpenDelete}
-                          />
-                          <Edit handleEditClick={edit} />
+                          <Trash setIsModalOpenDelete={() => handleDeleteClick(add.id)} />
+                          <Edit handleEditClick={handleEditClick(add)} /> {/* Passa a função corretamente */}
                         </>
                       </td>
                     </tr>
@@ -129,22 +172,17 @@ export const AddsList = ({ array }) => {
                   <ConfirmModal
                     isModalOpenDelete={isModalOpenDelete}
                     setIsModalOpenDelete={setIsModalOpenDelete}
+                    onConfirm={deleteAddById}
                   />
                   <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
-                    <form action="">
+                    <form onSubmit={handleEditSubmit}>
                       <div className="flex flex-col gap-6 items-center">
-                        <DefaultInput
-                          type={"text"}
-                          placeholder={"Descrição da propaganda"}
-                          // handleInputChange={handleInputChange}
-                          name={"name"}
-                        />
-
                         <DefaultInput
                           type={"url"}
                           placeholder={"Link do anunciante"}
-                          // handleInputChange={handleInputChange}
-                          name={"name"}
+                          handleInputChange={handleInputChange}
+                          name={"link"}
+                          value={editValues.link}
                         />
                         <YesButton type={"submit"} textButton={"Enviar"} />
                       </div>
