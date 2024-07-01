@@ -7,6 +7,7 @@ import { TextRich } from "../TextRich/TextRich";
 import { DefaultInput } from "../Inputs/DefaultInput";
 import { usePostContext } from "../../providers/PostContext";
 import { useNavigate, useLocation } from "react-router-dom";
+import { YesButton } from "../Buttons/YesButton";
 
 export const NewsList = ({ array }) => {
   const { deletePost } = usePostContext();
@@ -51,6 +52,10 @@ export const NewsList = ({ array }) => {
   const handleChange = (content) => {
     setEditContent(content);
   };
+
+  function edit() {
+    setIsModalEdit(true);
+  }
 
   return (
     <section className="">
@@ -109,26 +114,29 @@ export const NewsList = ({ array }) => {
                         </td>
                         <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
                           <Trash setIsModalOpenDelete={() => handleDeleteClick(post.id)} />
-                          <Edit isModalOpenEdit={isModalOpenEdit} setIsModalEdit={setIsModalEdit} />
+                          <Edit handleEditClick={edit} />
                         </td>
-                        <ConfirmModal
-                          isModalOpenDelete={isModalOpenDelete}
-                          setIsModalOpenDelete={setIsModalOpenDelete}
-                          onConfirm={deletePostById}
-                        />
-                        <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
-                          <form action="">
-                            <DefaultInput
-                              type={"text"}
-                              placeholder={"Título"}
-                              handleInputChange={handleInputChange}
-                              name={"title"}
-                            />
-                            <TextRich onChange={handleChange} />
-                          </form>
-                        </DefaultModal>
                       </tr>
                     ))}
+                  <ConfirmModal
+                    isModalOpenDelete={isModalOpenDelete}
+                    setIsModalOpenDelete={setIsModalOpenDelete}
+                    onConfirm={deletePostById}
+                  />
+                  <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
+                    <form action="">
+                      <div className="flex flex-col gap-6 items-center">
+                        <DefaultInput
+                          type={"text"}
+                          placeholder={"Título"}
+                          handleInputChange={handleInputChange}
+                          name={"title"}
+                        />
+                        <TextRich onChange={handleChange} />
+                        <YesButton textButton={"Enviar"} type={"submit"} />
+                      </div>
+                    </form>
+                  </DefaultModal>
                 </tbody>
               </table>
             </div>
