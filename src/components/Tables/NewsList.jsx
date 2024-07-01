@@ -26,7 +26,7 @@ export const NewsList = ({ array }) => {
     if (postId) {
       deletePost(postId);
       setIsModalOpenDelete(false);
-      navigate(location.pathname); // Remove o ID da URL após a exclusão
+      navigate(location.pathname);
     }
   };
 

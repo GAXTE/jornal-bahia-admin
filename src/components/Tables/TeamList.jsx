@@ -2,10 +2,31 @@ import React, { useState } from "react";
 import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
+import { useUserContext } from "../../providers/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export const TeamList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+  const { deleteUser } = useUserContext();
+  const navi = useNavigate();
+  const getUserIdFromUrl = () => {
+    const params = new URLSearchParams(location.search);
+    return params.get("userId");
+  };
+  const deleteUserById = () => {
+    const UserId = getUserIdFromUrl();
+    if (UserId) {
+      console.log();
+      deleteUser(UserId);
+      setIsModalOpenDelete(false);
+      navi(location.pathname);
+    }
+  };
 
+  const handleDeleteClick = (id) => {
+    setIsModalOpenDelete(true);
+    navi(`${location.pathname}?userId=${id}`);
+  };
   const truncateTitle = (name) => {
     if (name.length > 100) {
       return `${name.substring(0, 80)}...`;
@@ -67,15 +88,13 @@ export const TeamList = ({ array }) => {
                         {team.role?.name}
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
-                        <Trash
-                          isModalOpenDelete={isModalOpenDelete}
-                          setIsModalOpenDelete={setIsModalOpenDelete}
-                        />
+                        <Trash setIsModalOpenDelete={() => handleDeleteClick(team.id)} />
                         <Edit />
                       </td>
                       <ConfirmModal
                         isModalOpenDelete={isModalOpenDelete}
                         setIsModalOpenDelete={setIsModalOpenDelete}
+                        onConfirm={deleteUserById}
                       />
                     </tr>
                   ))}
