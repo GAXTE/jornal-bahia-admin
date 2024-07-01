@@ -58,13 +58,22 @@ export const UserProvider = ({ children }) => {
       console.log(error);
     }
   };
+  const deleteUser = async (id) => {
+    console.log(id);
+    try {
+      const { data } = await Api.delete(`/user/${id}`);
+      listAllUsers();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     listAllUsers();
     listAllRoles();
   }, []);
   return (
     <UserContext.Provider
-      value={{ login, forgot, validationCode, listAllUsers, ListAllUsers, roleList, createUser }}
+      value={{ login, forgot, validationCode, listAllUsers, ListAllUsers, roleList, createUser, deleteUser }}
     >
       {children}
     </UserContext.Provider>
