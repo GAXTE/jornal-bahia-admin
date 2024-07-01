@@ -29,12 +29,22 @@ export const TagsProvider = ({ children }) => {
       getAllTags();
     } catch (error) {}
   };
+  const updateTag = async (tag) => {
+    try {
+      const { data } = await Api.put(`/tag/`, tag);
+      getAllTags();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     getAllTags();
   }, []);
 
   return (
-    <TagsContext.Provider value={{ ListAlltags, createTag, deleteTag }}>{children}</TagsContext.Provider>
+    <TagsContext.Provider value={{ ListAlltags, createTag, deleteTag, updateTag }}>
+      {children}
+    </TagsContext.Provider>
   );
 };
 

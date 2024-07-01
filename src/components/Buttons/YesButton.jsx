@@ -7,7 +7,9 @@ export const YesButton = ({ textButton, type, onConfirm }) => {
       <button
         type={type}
         onClick={() => {
-          onConfirm();
+          if (typeof onConfirm === "function") {
+            onConfirm();
+          }
         }}
         className="btn bg-lime-500 hover:bg-lime-900 text-white"
       >

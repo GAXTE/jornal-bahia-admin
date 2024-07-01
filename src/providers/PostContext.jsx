@@ -83,11 +83,20 @@ export const PostProvider = ({ children }) => {
       getAllPosts();
     } catch (error) {}
   };
+  const updatePost = async (id, post) => {
+    try {
+      const { data } = await Api.put(`/post/${id}`, post);
+      sessionStorage.setItem("allPosts", "");
+      getAllPosts();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     getAllPosts();
   }, []);
   return (
-    <PostContext.Provider value={{ createPost, getAllPosts, AllPosts, deletePost }}>
+    <PostContext.Provider value={{ createPost, getAllPosts, AllPosts, deletePost, updatePost }}>
       {children}
     </PostContext.Provider>
   );

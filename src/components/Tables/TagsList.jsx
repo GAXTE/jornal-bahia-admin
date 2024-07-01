@@ -11,7 +11,9 @@ import { YesButton } from "../Buttons/YesButton";
 export const TagsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isModalOpenEdit, setIsModalEdit] = useState(false);
-  const { deleteTag } = useTagsContext();
+  const [editValues, setEditValues] = useState({ name: "" });
+  const [selectedTagId, setSelectedTagId] = useState(null);
+  const { deleteTag, updateTag } = useTagsContext();
   const navi = useNavigate();
 
   const getTagFromUrl = () => {
@@ -28,13 +30,23 @@ export const TagsList = ({ array }) => {
     }
   };
 
-  const edit = () => {
-    setIsModalEdit(true);
-  };
-
   const handleDeleteClick = (id) => {
     setIsModalOpenDelete(true);
     navi(`${location.pathname}?tagId=${id}`);
+  };
+
+  const handleEditClick = (tag) => {
+    setSelectedTagId(tag.id);
+    setEditValues({ name: tag.name });
+    setIsModalEdit(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditValues({
+      ...editValues,
+      [name]: value,
+    });
   };
 
   const truncateTitle = (title) => {
@@ -42,6 +54,19 @@ export const TagsList = ({ array }) => {
       return `${title.substring(0, 80)}...`;
     }
     return title;
+  };
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    const { name } = editValues;
+    const filteredValues = {};
+    if (name.trim() !== "") filteredValues.name = name;
+    const obj = {
+      id: selectedTagId,
+      ...filteredValues,
+    };
+    updateTag(obj);
+    setIsModalEdit(false);
   };
 
   return (
@@ -81,7 +106,7 @@ export const TagsList = ({ array }) => {
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
                         <Trash setIsModalOpenDelete={() => handleDeleteClick(category.id)} />
-                        <Edit handleEditClick={edit} />
+                        <Edit handleEditClick={() => handleEditClick(category)} />
                       </td>
                     </tr>
                   ))}
@@ -91,13 +116,14 @@ export const TagsList = ({ array }) => {
                     onConfirm={deleteTagById}
                   />
                   <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
-                    <form action="">
+                    <form onSubmit={handleEditSubmit}>
                       <div className="flex flex-col gap-6 items-center">
                         <DefaultInput
                           type={"text"}
                           placeholder={"Nome da tag"}
-                          // handleInputChange={handleInputChange}
+                          handleInputChange={handleInputChange}
                           name={"name"}
+                          value={editValues.name}
                         />
                         <YesButton type={"submit"} textButton={"Enviar"} />
                       </div>

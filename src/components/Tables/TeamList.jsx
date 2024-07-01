@@ -12,7 +12,9 @@ import { SelectInput } from "../Inputs/SelectInput";
 export const TeamList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isModalOpenEdit, setIsModalEdit] = useState(false);
-  const { deleteUser } = useUserContext();
+  const [editValues, setEditValues] = useState({ name: "", email: "" });
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const { deleteUser, updateUser } = useUserContext();
   const navi = useNavigate();
   const getUserIdFromUrl = () => {
     const params = new URLSearchParams(location.search);
@@ -39,8 +41,32 @@ export const TeamList = ({ array }) => {
     return name;
   };
 
-  const edit = () => {
+  const handleEditClick = (user) => () => {
+    setSelectedUserId(user.id);
+    setEditValues({ name: user.name, email: user.email });
     setIsModalEdit(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditValues({
+      ...editValues,
+      [name]: value,
+    });
+  };
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    const { name, email } = editValues;
+    const filteredValues = {};
+    if (name.trim() !== "") filteredValues.name = name;
+    if (email.trim() !== "") filteredValues.email = email;
+    const obj = {
+      username: filteredValues.name,
+      email: filteredValues.email,
+    };
+    updateUser(selectedUserId, obj);
+    setIsModalEdit(false);
   };
 
   return (
@@ -98,7 +124,7 @@ export const TeamList = ({ array }) => {
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
                         <Trash setIsModalOpenDelete={() => handleDeleteClick(team.id)} />
-                        <Edit handleEditClick={edit} />
+                        <Edit handleEditClick={handleEditClick(team)} />
                       </td>
                     </tr>
                   ))}
@@ -108,18 +134,18 @@ export const TeamList = ({ array }) => {
                     onConfirm={deleteUserById}
                   />
                   <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
-                    <form action="">
+                    <form onSubmit={handleEditSubmit}>
                       <div className="flex flex-col gap-6 items-center">
                         <DefaultInput
                           type={"text"}
                           placeholder={"Nome completo"}
-                          // handleInputChange={handleInputChange}
+                          handleInputChange={handleInputChange}
                           name={"name"}
                         />
                         <DefaultInput
                           type={"email"}
                           placeholder={"Email"}
-                          // handleInputChange={handleInputChange}
+                          handleInputChange={handleInputChange}
                           name={"email"}
                         />
                         <YesButton type={"submit"} textButton={"Enviar"} />
