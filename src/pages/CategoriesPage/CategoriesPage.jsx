@@ -6,31 +6,53 @@ import { useCategoryContext } from "../../providers/CategoryContext";
 import { DefaultInput } from "../../components/Inputs/DefaultInput";
 import { TextArea } from "../../components/Inputs/TextArea";
 import { YesButton } from "../../components/Buttons/YesButton";
+
 export const CategoriesPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
-  const { ListAllCategories } = useCategoryContext();
+  const { ListAllCategories, createCategory } = useCategoryContext();
+  const [categoryName, setCategoryName] = useState("");
+  const [categoryDescription, setCategoryDescription] = useState("");
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "categoryName") {
+      setCategoryName(value);
+    } else if (name === "categoryDescription") {
+      setCategoryDescription(value);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsModalOpenCreate(false);
+    const category = {
+      name: categoryName,
+      description: categoryDescription,
+    };
+    createCategory(category);
+  };
 
   return (
     <>
-      <DefaultTemplate
-        textButton={"Categoria"}
-        setIsModalOpenCreate={setIsModalOpenCreate}
-      >
-        <DefaultModal
-          isModalOpen={isModalOpenCreate}
-          setIsModalOpen={setIsModalOpenCreate}
-        >
-          <form action="">
-            <div className="flex flex-col gap-6 items-center">
-              <DefaultInput
-                type={"text"}
-                placeholder={"Nome da categoria"}
-                // handleInputChange={handleInputChange}
-                name={"name"}
-              />
-              <TextArea />
-              <YesButton type={"submit"} textButton={"Enviar"} />
-            </div>
+      <DefaultTemplate textButton={"Categoria"} setIsModalOpenCreate={setIsModalOpenCreate}>
+        <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
+          <form onSubmit={handleSubmit}>
+            <DefaultInput
+              type="text"
+              placeholder="Nome da categoria"
+              handleInputChange={handleInputChange}
+              name="categoryName"
+              value={categoryName}
+            />
+            <DefaultInput
+              type="text"
+              placeholder="Descrição"
+              handleInputChange={handleInputChange}
+              name="categoryDescription"
+              value={categoryDescription}
+            />
+            <TextArea />
+            <YesButton type={"submit"} textButton={"Enviar"} />
           </form>
         </DefaultModal>
         <CategoryList array={ListAllCategories} />

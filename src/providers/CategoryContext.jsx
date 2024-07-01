@@ -20,7 +20,17 @@ export const CategoryProvider = ({ children }) => {
     getAllCategories();
   }, []);
 
-  return <CategoryContext.Provider value={{ ListAllCategories }}>{children}</CategoryContext.Provider>;
+  const createCategory = async (category) => {
+    try {
+      const { data } = await Api.post("/category", category);
+      getAllCategories();
+    } catch (error) {}
+  };
+  return (
+    <CategoryContext.Provider value={{ ListAllCategories, createCategory }}>
+      {children}
+    </CategoryContext.Provider>
+  );
 };
 
 export const useCategoryContext = () => useContext(CategoryContext);
