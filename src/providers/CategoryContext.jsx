@@ -33,11 +33,17 @@ export const CategoryProvider = ({ children }) => {
       console.log(error);
     }
   };
+  const updateCategory = async (category) => {
+    try {
+      const { data } = await Api.put("/category", category);
+      getAllCategories();
+    } catch (error) {}
+  };
   useEffect(() => {
     getAllCategories();
   }, []);
   return (
-    <CategoryContext.Provider value={{ ListAllCategories, createCategory, deleteCategory }}>
+    <CategoryContext.Provider value={{ ListAllCategories, createCategory, deleteCategory, updateCategory }}>
       {children}
     </CategoryContext.Provider>
   );

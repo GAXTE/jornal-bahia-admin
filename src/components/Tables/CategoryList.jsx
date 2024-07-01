@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
@@ -10,7 +10,9 @@ import { useNavigate } from "react-router-dom";
 export const CategoryList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isModalOpenEdit, setIsModalEdit] = useState(false);
-  const { deleteCategory } = useCategoryContext();
+  const [editValues, setEditValues] = useState({ name: "", description: "" });
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const { deleteCategory, updateCategory } = useCategoryContext();
   const navi = useNavigate();
 
   const getCategoryFromUrl = () => {
@@ -30,6 +32,34 @@ export const CategoryList = ({ array }) => {
   const handleDeleteClick = (id) => {
     setIsModalOpenDelete(true);
     navi(`${location.pathname}?categoryId=${id}`);
+  };
+
+  const handleEditClick = (category) => {
+    setSelectedCategoryId(category.id);
+    setEditValues({ name: category.name, description: category.description });
+    setIsModalEdit(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditValues({
+      ...editValues,
+      [name]: value,
+    });
+  };
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    const { name, description } = editValues;
+    const filteredValues = {};
+    if (name.trim() !== "") filteredValues.name = name;
+    if (description.trim() !== "") filteredValues.description = description;
+    const obj = {
+      id: selectedCategoryId,
+      ...filteredValues,
+    };
+    updateCategory(obj);
+    setIsModalEdit(false);
   };
 
   const truncateTitle = (title) => {
@@ -85,7 +115,7 @@ export const CategoryList = ({ array }) => {
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
                         <Trash setIsModalOpenDelete={() => handleDeleteClick(category.id)} />
-                        <Edit isModalOpenEdit={isModalOpenEdit} setIsModalEdit={setIsModalEdit} />
+                        <Edit handleEditClick={() => handleEditClick(category)} />
                       </td>
                       <ConfirmModal
                         isModalOpenDelete={isModalOpenDelete}
@@ -93,19 +123,22 @@ export const CategoryList = ({ array }) => {
                         onConfirm={deleteCategoryById}
                       />
                       <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
-                        <form action="">
+                        <form onSubmit={handleEditSubmit}>
                           <DefaultInput
                             type={"text"}
                             placeholder={"Nome da categoria"}
-                            // handleInputChange={handleInputChange}
+                            handleInputChange={handleInputChange}
                             name={"name"}
+                            value={editValues.name}
                           />
                           <DefaultInput
                             type={"text"}
                             placeholder={"Descrição"}
-                            // handleInputChange={handleInputChange}
-                            name={"name"}
+                            handleInputChange={handleInputChange}
+                            name={"description"}
+                            value={editValues.description}
                           />
+                          <button type="submit">Salvar</button>
                         </form>
                       </DefaultModal>
                     </tr>
