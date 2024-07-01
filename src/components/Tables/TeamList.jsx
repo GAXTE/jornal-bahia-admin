@@ -4,9 +4,14 @@ import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
 import { useUserContext } from "../../providers/UserContext";
 import { useNavigate } from "react-router-dom";
+import { DefaultModal } from "../Modals/DefaultModal";
+import { DefaultInput } from "../Inputs/DefaultInput";
+import { YesButton } from "../Buttons/YesButton";
+import { SelectInput } from "../Inputs/SelectInput";
 
 export const TeamList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
+  const [isModalOpenEdit, setIsModalEdit] = useState(false);
   const { deleteUser } = useUserContext();
   const navi = useNavigate();
   const getUserIdFromUrl = () => {
@@ -32,6 +37,10 @@ export const TeamList = ({ array }) => {
       return `${name.substring(0, 80)}...`;
     }
     return name;
+  };
+
+  const edit = () => {
+    setIsModalEdit(true);
   };
 
   return (
@@ -89,15 +98,34 @@ export const TeamList = ({ array }) => {
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
                         <Trash setIsModalOpenDelete={() => handleDeleteClick(team.id)} />
-                        <Edit />
+                        <Edit handleEditClick={edit} />
                       </td>
-                      <ConfirmModal
-                        isModalOpenDelete={isModalOpenDelete}
-                        setIsModalOpenDelete={setIsModalOpenDelete}
-                        onConfirm={deleteUserById}
-                      />
                     </tr>
                   ))}
+                  <ConfirmModal
+                    isModalOpenDelete={isModalOpenDelete}
+                    setIsModalOpenDelete={setIsModalOpenDelete}
+                    onConfirm={deleteUserById}
+                  />
+                  <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
+                    <form action="">
+                      <div className="flex flex-col gap-6 items-center">
+                        <DefaultInput
+                          type={"text"}
+                          placeholder={"Nome completo"}
+                          // handleInputChange={handleInputChange}
+                          name={"name"}
+                        />
+                        <DefaultInput
+                          type={"email"}
+                          placeholder={"Email"}
+                          // handleInputChange={handleInputChange}
+                          name={"email"}
+                        />
+                        <YesButton type={"submit"} textButton={"Enviar"} />
+                      </div>
+                    </form>
+                  </DefaultModal>
                 </tbody>
               </table>
             </div>

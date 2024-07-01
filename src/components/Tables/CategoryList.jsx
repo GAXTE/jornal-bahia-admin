@@ -6,6 +6,8 @@ import { DefaultModal } from "../Modals/DefaultModal";
 import { DefaultInput } from "../Inputs/DefaultInput";
 import { useCategoryContext } from "../../providers/CategoryContext";
 import { useNavigate } from "react-router-dom";
+import { YesButton } from "../Buttons/YesButton";
+import { TextArea } from "../Inputs/TextArea";
 
 export const CategoryList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -117,32 +119,28 @@ export const CategoryList = ({ array }) => {
                         <Trash setIsModalOpenDelete={() => handleDeleteClick(category.id)} />
                         <Edit handleEditClick={() => handleEditClick(category)} />
                       </td>
-                      <ConfirmModal
-                        isModalOpenDelete={isModalOpenDelete}
-                        setIsModalOpenDelete={setIsModalOpenDelete}
-                        onConfirm={deleteCategoryById}
-                      />
-                      <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
-                        <form onSubmit={handleEditSubmit}>
-                          <DefaultInput
-                            type={"text"}
-                            placeholder={"Nome da categoria"}
-                            handleInputChange={handleInputChange}
-                            name={"name"}
-                            value={editValues.name}
-                          />
-                          <DefaultInput
-                            type={"text"}
-                            placeholder={"Descrição"}
-                            handleInputChange={handleInputChange}
-                            name={"description"}
-                            value={editValues.description}
-                          />
-                          <button type="submit">Salvar</button>
-                        </form>
-                      </DefaultModal>
                     </tr>
                   ))}
+                  <ConfirmModal
+                    isModalOpenDelete={isModalOpenDelete}
+                    setIsModalOpenDelete={setIsModalOpenDelete}
+                    onConfirm={deleteCategoryById}
+                  />
+                  <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
+                    <form onSubmit={handleEditSubmit} className="flex flex-col gap-8">
+                      <div className="flex flex-col gap-6 items-center">
+                        <DefaultInput
+                          type={"text"}
+                          placeholder={"Nome da categoria"}
+                          handleInputChange={handleInputChange}
+                          name={"name"}
+                          value={editValues.name}
+                        />
+                        <TextArea />
+                        <YesButton type={"submit"} textButton={"Enviar"} />
+                      </div>
+                    </form>
+                  </DefaultModal>
                 </tbody>
               </table>
             </div>

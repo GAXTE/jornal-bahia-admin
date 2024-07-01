@@ -6,6 +6,7 @@ import { DefaultModal } from "../Modals/DefaultModal";
 import { DefaultInput } from "../Inputs/DefaultInput";
 import { useTagsContext } from "../../providers/TagsContext";
 import { useNavigate } from "react-router-dom";
+import { YesButton } from "../Buttons/YesButton";
 
 export const TagsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -25,6 +26,10 @@ export const TagsList = ({ array }) => {
       setIsModalOpenDelete(false);
       navi(location.pathname);
     }
+  };
+
+  const edit = () => {
+    setIsModalEdit(true);
   };
 
   const handleDeleteClick = (id) => {
@@ -76,25 +81,28 @@ export const TagsList = ({ array }) => {
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
                         <Trash setIsModalOpenDelete={() => handleDeleteClick(category.id)} />
-                        <Edit />
+                        <Edit handleEditClick={edit} />
                       </td>
-                      <ConfirmModal
-                        isModalOpenDelete={isModalOpenDelete}
-                        setIsModalOpenDelete={setIsModalOpenDelete}
-                        onConfirm={deleteTagById}
-                      />
-                      <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
-                        <form action="">
-                          <DefaultInput
-                            type={"text"}
-                            placeholder={"Nome da tag"}
-                            // handleInputChange={handleInputChange}
-                            name={"name"}
-                          />
-                        </form>
-                      </DefaultModal>
                     </tr>
                   ))}
+                  <ConfirmModal
+                    isModalOpenDelete={isModalOpenDelete}
+                    setIsModalOpenDelete={setIsModalOpenDelete}
+                    onConfirm={deleteTagById}
+                  />
+                  <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
+                    <form action="">
+                      <div className="flex flex-col gap-6 items-center">
+                        <DefaultInput
+                          type={"text"}
+                          placeholder={"Nome da tag"}
+                          // handleInputChange={handleInputChange}
+                          name={"name"}
+                        />
+                        <YesButton type={"submit"} textButton={"Enviar"} />
+                      </div>
+                    </form>
+                  </DefaultModal>
                 </tbody>
               </table>
             </div>

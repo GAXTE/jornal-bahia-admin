@@ -4,6 +4,7 @@ import { CategoryList } from "../../components/Tables/CategoryList";
 import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
 import { useCategoryContext } from "../../providers/CategoryContext";
 import { DefaultInput } from "../../components/Inputs/DefaultInput";
+import { YesButton } from "../../components/Buttons/YesButton";
 
 export const CategoriesPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
@@ -35,21 +36,23 @@ export const CategoriesPage = () => {
       <DefaultTemplate textButton={"Categoria"} setIsModalOpenCreate={setIsModalOpenCreate}>
         <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
           <form onSubmit={handleSubmit}>
-            <DefaultInput
-              type="text"
-              placeholder="Nome da categoria"
-              handleInputChange={handleInputChange}
-              name="categoryName"
-              value={categoryName}
-            />
-            <DefaultInput
-              type="text"
-              placeholder="Descrição"
-              handleInputChange={handleInputChange}
-              name="categoryDescription"
-              value={categoryDescription}
-            />
-            <button type="submit">submit</button>
+            <div className="flex flex-col gap-6 items-center">
+              <DefaultInput
+                type="text"
+                placeholder="Nome da categoria"
+                handleInputChange={handleInputChange}
+                name="categoryName"
+                value={categoryName}
+              />
+              <DefaultInput
+                type="text"
+                placeholder="Descrição"
+                handleInputChange={handleInputChange}
+                name="categoryDescription"
+                value={categoryDescription}
+              />
+              <YesButton textButton={"Enviar"} type={"submit"} />
+            </div>
           </form>
         </DefaultModal>
         <CategoryList array={ListAllCategories} />

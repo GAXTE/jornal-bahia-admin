@@ -32,12 +32,13 @@ export const AddsList = ({ array }) => {
     return title;
   };
 
+  const edit = () => {
+    setIsModalEdit(true);
+  };
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-          Propaganda
-        </h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Propaganda</h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full">
           Total = {array?.length}
         </span>
@@ -96,17 +97,13 @@ export const AddsList = ({ array }) => {
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap ">
                         <button onClick={() => copyToClipboard(add.imageUrl)}>
                           Copiar Link
-                          <Copy
-                            style={{ maxHeight: "15px", cursor: "pointer" }}
-                          />
+                          <Copy style={{ maxHeight: "15px", cursor: "pointer" }} />
                         </button>
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                         <button onClick={() => copyToClipboard(add.videoUrl)}>
                           Copiar Link
-                          <Copy
-                            style={{ maxHeight: "15px", cursor: "pointer" }}
-                          />
+                          <Copy style={{ maxHeight: "15px", cursor: "pointer" }} />
                         </button>
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
@@ -115,9 +112,7 @@ export const AddsList = ({ array }) => {
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                         <button onClick={() => copyToClipboard(add.videoUrl)}>
                           Copiar Link
-                          <Copy
-                            style={{ maxHeight: "15px", cursor: "pointer" }}
-                          />
+                          <Copy style={{ maxHeight: "15px", cursor: "pointer" }} />
                         </button>
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between h-[56px]">
@@ -126,10 +121,7 @@ export const AddsList = ({ array }) => {
                             isModalOpenDelete={isModalOpenDelete}
                             setIsModalOpenDelete={setIsModalOpenDelete}
                           />
-                          <Edit
-                            isModalOpenEdit={isModalOpenEdit}
-                            setIsModalEdit={setIsModalEdit}
-                          />
+                          <Edit handleEditClick={edit} />
                         </>
                       </td>
                     </tr>
@@ -138,10 +130,7 @@ export const AddsList = ({ array }) => {
                     isModalOpenDelete={isModalOpenDelete}
                     setIsModalOpenDelete={setIsModalOpenDelete}
                   />
-                  <DefaultModal
-                    isModalOpen={isModalOpenEdit}
-                    setIsModalOpen={setIsModalEdit}
-                  >
+                  <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
                     <form action="">
                       <div className="flex flex-col gap-6 items-center">
                         <DefaultInput
@@ -150,22 +139,12 @@ export const AddsList = ({ array }) => {
                           // handleInputChange={handleInputChange}
                           name={"name"}
                         />
-                        <FileInput
-                          type={"file"}
-                          accept={"image/*, video/*"}
-                          // handleFileChange={handleFileChange}
-                        />
+
                         <DefaultInput
                           type={"url"}
                           placeholder={"Link do anunciante"}
                           // handleInputChange={handleInputChange}
                           name={"name"}
-                        />
-                        <SelectInput
-                          name1={"type"}
-                          array={types}
-                          placeholder={"Escolha uma tipo"}
-                          // handleInputChange={handleInputChange}
                         />
                         <YesButton type={"submit"} textButton={"Enviar"} />
                       </div>
