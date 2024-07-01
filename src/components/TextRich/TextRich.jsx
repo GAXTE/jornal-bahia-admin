@@ -29,12 +29,12 @@ export const TextRich = ({ value = "", onChange }) => {
   };
 
   return (
-    <div>
+    <div className="text-rich-editor">
       <ReactQuill
         value={text}
         onChange={handleChange}
         modules={modules}
-        style={{ maxWidth: "500px", maxHeight: "500px", overflowY: "auto" }}
+        theme="snow"
       />
     </div>
   );

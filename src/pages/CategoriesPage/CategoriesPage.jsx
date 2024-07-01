@@ -28,7 +28,6 @@ export const CategoriesPage = () => {
       description: categoryDescription,
     };
     createCategory(category);
-    // console.log(category);
   };
 
   return (
