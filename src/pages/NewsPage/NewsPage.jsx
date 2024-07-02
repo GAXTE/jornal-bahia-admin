@@ -1,67 +1,111 @@
-import React, { useState } from "react";
-
-import Sidebar from "../../partials/Sidebar";
-import Header from "../../partials/Header";
-import WelcomeBanner from "../../partials/dashboard/WelcomeBanner";
-import Datepicker from "../../components/Datepicker";
-import { PostList } from "../../components/Tables/PostList";
+import React, { useEffect, useState } from "react";
+import { NewsList } from "../../components/Tables/NewsList";
 import { DefaultModal } from "../../components/Modals/DefaultModal";
+import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
+import { TextRich } from "../../components/TextRich/TextRich";
+import { usePostContext } from "../../providers/PostContext";
+import { useTagsContext } from "../../providers/TagsContext";
+import parse from "html-react-parser";
+import { FileInput } from "../../components/Inputs/FileInput";
+import { DefaultInput } from "../../components/Inputs/DefaultInput";
+import { CheckBoxInput } from "../../components/Inputs/CheckBoxInput";
+import { SelectInput } from "../../components/Inputs/SelectInput";
+import { YesButton } from "../../components/Buttons/YesButton";
 
-// Lista de posts de exemplo
-
-const posts = [
-  {
-    title:
-      "kojskljsgsfjgfjf jgjgfs sfgj jgsfjsfg fjg ghsjksdghsjsddskjgsdksdjsdg  djsdkjsdksdgsdkjdgksdg lbsa,bafbfssbflknalfnlknslknfs olkashlkasfhklasf lkhsaklfashklasfhafls ",
-    category: "Categoria A",
-    date: "01/01/2023",
-  },
-  { title: "Post 2", category: "Categoria B", date: "02/02/2023" },
-  { title: "Post 3", category: "Categoria C", date: "03/03/2023" },
-];
-
-export const News = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+export const NewsPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
+  const [editContent, setEditContent] = useState("");
+  const [title, setTitle] = useState("");
+  const [image, setImage] = useState(null);
+  const [category, setCategory] = useState("");
+  const [selectedTags, setSelectedTags] = useState([]);
+  const { AllPosts, createPost } = usePostContext();
+  const { ListAlltags } = useTagsContext();
+  const categories = JSON.parse(localStorage.getItem("categories"));
+
+  const handleChange = (content) => {
+    setEditContent(content);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "title") setTitle(value);
+    else if (name === "category") setCategory(value);
+  };
+
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  const handleTagChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setSelectedTags([...selectedTags, value]);
+    } else {
+      setSelectedTags(selectedTags.filter((tag) => tag !== value));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const post = {
+      title: title,
+      content: editContent,
+      categoryId: category,
+      tagIds: selectedTags,
+      files: image,
+    };
+    createPost(post);
+  };
 
   return (
     <>
-      <div className="flex h-screen overflow-hidden">
-        <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-          <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-
-          <main>
-            <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
-              <WelcomeBanner />
-              <div className="sm:flex sm:justify-end sm:items-center mb-8">
-                <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
-                  <Datepicker />
-                  <button
-                    onClick={() => setIsModalOpenCreate(true)}
-                    className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
-                  >
-                    <svg
-                      className="w-4 h-4 fill-current opacity-50 shrink-0"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
-                    </svg>
-                    <span className="hidden xs:block ml-2">
-                      Adicionar Noticia
-                    </span>
-                  </button>
-                </div>
+      <DefaultTemplate textButton={"Noticia"} setIsModalOpenCreate={setIsModalOpenCreate}>
+        <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+            <div className="flex flex-col gap-6 items-center">
+              <FileInput
+                type={"file"}
+                text={"Escolha uma imagem de capa"}
+                accept={"image/*"}
+                handleFileChange={handleFileChange}
+              />
+              <DefaultInput
+                type={"text"}
+                placeholder={"Título da notícia"}
+                handleInputChange={handleInputChange}
+                name={"title"}
+              />
+              <div className="flex gap-3">
+                {ListAlltags.map((tag) => (
+                  <div key={tag.id}>
+                    <CheckBoxInput
+                      id={`tag-${tag.id}`}
+                      value={tag.id}
+                      name={tag.name}
+                      htmlFor={`tag-${tag.id}`}
+                      handleTagChange={handleTagChange}
+                    />
+                  </div>
+                ))}
               </div>
-              <DefaultModal
-                isModalOpen={isModalOpenCreate}
-                setIsModalOpen={setIsModalOpenCreate}
-              ></DefaultModal>
-              <PostList array={posts} />
+              <SelectInput
+                name1={"category"}
+                array={categories}
+                placeholder={"Escolha uma categoria"}
+                handleInputChange={handleInputChange}
+              />
             </div>
-          </main>
-        </div>
-      </div>
+            <div className="flex flex-col gap-6 items-center">
+              <TextRich onChange={handleChange} />
+
+              <YesButton type={"submit"} textButton={"Enviar"} />
+            </div>
+          </form>
+        </DefaultModal>
+
+        <NewsList array={AllPosts} />
+      </DefaultTemplate>
     </>
   );
 };

@@ -8,18 +8,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.6.0",
     "@tailwindcss/forms": "^0.5.7",
     "axios": "^1.7.2",
     "chart.js": "^4.4.1",
     "chartjs-adapter-moment": "^1.0.1",
     "flatpickr": "^4.6.13",
     "framer-motion": "^11.2.11",
+    "html-react-parser": "^5.1.10",
+    "lucide-react": "^0.397.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-flatpickr": "^3.10.13",
+    "react-hook-form": "^7.52.0",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.20.1",
-    "react-transition-group": "^4.4.5"
+    "react-transition-group": "^4.4.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

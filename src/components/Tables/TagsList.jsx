@@ -1,31 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
 import { DefaultModal } from "../Modals/DefaultModal";
 import { DefaultInput } from "../Inputs/DefaultInput";
-import { useCategoryContext } from "../../providers/CategoryContext";
+import { useTagsContext } from "../../providers/TagsContext";
 import { useNavigate } from "react-router-dom";
 import { YesButton } from "../Buttons/YesButton";
-import { TextArea } from "../Inputs/TextArea";
 
-export const CategoryList = ({ array }) => {
+export const TagsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isModalOpenEdit, setIsModalEdit] = useState(false);
-  const [editValues, setEditValues] = useState({ name: "", description: "" });
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const { deleteCategory, updateCategory } = useCategoryContext();
+  const [editValues, setEditValues] = useState({ name: "" });
+  const [selectedTagId, setSelectedTagId] = useState(null);
+  const { deleteTag, updateTag } = useTagsContext();
   const navi = useNavigate();
 
-  const getCategoryFromUrl = () => {
+  const getTagFromUrl = () => {
     const params = new URLSearchParams(location.search);
-    return params.get("categoryId");
+    return params.get("tagId");
   };
 
-  const deleteCategoryById = () => {
-    const categoryId = getCategoryFromUrl();
-    if (categoryId) {
-      deleteCategory(categoryId);
+  const deleteTagById = () => {
+    const tagId = getTagFromUrl();
+    if (tagId) {
+      deleteTag(tagId);
       setIsModalOpenDelete(false);
       navi(location.pathname);
     }
@@ -33,12 +32,12 @@ export const CategoryList = ({ array }) => {
 
   const handleDeleteClick = (id) => {
     setIsModalOpenDelete(true);
-    navi(`${location.pathname}?categoryId=${id}`);
+    navi(`${location.pathname}?tagId=${id}`);
   };
 
-  const handleEditClick = (category) => {
-    setSelectedCategoryId(category.id);
-    setEditValues({ name: category.name, description: category.description });
+  const handleEditClick = (tag) => {
+    setSelectedTagId(tag.id);
+    setEditValues({ name: tag.name });
     setIsModalEdit(true);
   };
 
@@ -50,20 +49,6 @@ export const CategoryList = ({ array }) => {
     });
   };
 
-  const handleEditSubmit = (e) => {
-    e.preventDefault();
-    const { name, description } = editValues;
-    const filteredValues = {};
-    if (name.trim() !== "") filteredValues.name = name;
-    if (description.trim() !== "") filteredValues.description = description;
-    const obj = {
-      id: selectedCategoryId,
-      ...filteredValues,
-    };
-    updateCategory(obj);
-    setIsModalEdit(false);
-  };
-
   const truncateTitle = (title) => {
     if (title.length > 100) {
       return `${title.substring(0, 80)}...`;
@@ -71,12 +56,25 @@ export const CategoryList = ({ array }) => {
     return title;
   };
 
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    const { name } = editValues;
+    const filteredValues = {};
+    if (name.trim() !== "") filteredValues.name = name;
+    const obj = {
+      id: selectedTagId,
+      ...filteredValues,
+    };
+    updateTag(obj);
+    setIsModalEdit(false);
+  };
+
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Categorias</h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Tags</h2>
         <span className="px-3 py-1 text-xs text-gray-950  bg-red-100 rounded-full">
-          Total = {array?.length}
+          Total = {array.length}
         </span>
       </div>
       <div className="flex flex-col mt-6">
@@ -96,12 +94,6 @@ export const CategoryList = ({ array }) => {
                       scope="col"
                       className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
                     >
-                      Descrição
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
                       Opções
                     </th>
                   </tr>
@@ -112,9 +104,6 @@ export const CategoryList = ({ array }) => {
                       <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap dark:text-white">
                         {truncateTitle(category.name)}
                       </td>
-                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                        {category.description}
-                      </td>
                       <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
                         <Trash setIsModalOpenDelete={() => handleDeleteClick(category.id)} />
                         <Edit handleEditClick={() => handleEditClick(category)} />
@@ -124,24 +113,17 @@ export const CategoryList = ({ array }) => {
                   <ConfirmModal
                     isModalOpenDelete={isModalOpenDelete}
                     setIsModalOpenDelete={setIsModalOpenDelete}
-                    onConfirm={deleteCategoryById}
+                    onConfirm={deleteTagById}
                   />
                   <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
-                    <form onSubmit={handleEditSubmit} className="flex flex-col gap-8">
+                    <form onSubmit={handleEditSubmit}>
                       <div className="flex flex-col gap-6 items-center">
                         <DefaultInput
                           type={"text"}
-                          placeholder={"Nome da categoria"}
+                          placeholder={"Nome da tag"}
                           handleInputChange={handleInputChange}
                           name={"name"}
                           value={editValues.name}
-                        />
-                        <TextArea
-                          type={"text"}
-                          placeholder={"Nome da categoria"}
-                          handleInputChange={handleInputChange}
-                          name={"description"}
-                          value={editValues.description}
                         />
                         <YesButton type={"submit"} textButton={"Enviar"} />
                       </div>
