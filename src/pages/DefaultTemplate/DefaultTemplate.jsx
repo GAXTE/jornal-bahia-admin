@@ -9,6 +9,7 @@ export const DefaultTemplate = ({
   children,
   textButton,
   setIsModalOpenCreate,
+  styleButton,
 }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
@@ -25,6 +26,7 @@ export const DefaultTemplate = ({
                 <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
                   <Datepicker />
                   <CreateButton
+                    style={styleButton}
                     textButton={textButton}
                     setIsModalOpenCreate={setIsModalOpenCreate}
                   />

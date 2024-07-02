@@ -1,9 +1,10 @@
-export const CreateButton = ({ textButton, setIsModalOpenCreate }) => {
+export const CreateButton = ({ textButton, setIsModalOpenCreate, style }) => {
   return (
     <>
       <button
         onClick={() => setIsModalOpenCreate(true)}
         className="btn bg-red-500 hover:bg-red-900 text-white"
+        style={style}
       >
         <svg
           className="w-4 h-4 fill-current opacity-50 shrink-0"
