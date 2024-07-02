@@ -13,7 +13,11 @@ export const NewsList = ({ array }) => {
   const { deletePost, updatePost } = usePostContext();
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isModalOpenEdit, setIsModalEdit] = useState(false);
-  const [editPost, setEditPost] = useState({ id: null, title: "", content: "" });
+  const [editPost, setEditPost] = useState({
+    id: null,
+    title: "",
+    content: "",
+  });
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -73,7 +77,9 @@ export const NewsList = ({ array }) => {
   return (
     <section className="">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Notícias</h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
+          Notícias
+        </h2>
         <span className="px-3 py-1 text-xs text-gray-950 bg-red-100 rounded-full">
           Total = {array.length}
         </span>
@@ -113,7 +119,9 @@ export const NewsList = ({ array }) => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                   {array
-                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    .sort(
+                      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                    )
                     .map((post, index) => (
                       <tr key={index}>
                         <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap dark:text-white">
@@ -126,7 +134,11 @@ export const NewsList = ({ array }) => {
                           {new Date(post.createdAt).toLocaleDateString("pt-BR")}
                         </td>
                         <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
-                          <Trash setIsModalOpenDelete={() => handleDeleteClick(post.id)} />
+                          <Trash
+                            setIsModalOpenDelete={() =>
+                              handleDeleteClick(post.id)
+                            }
+                          />
                           <Edit handleEditClick={() => handleEditClick(post)} />
                         </td>
                       </tr>
@@ -136,7 +148,10 @@ export const NewsList = ({ array }) => {
                     setIsModalOpenDelete={setIsModalOpenDelete}
                     onConfirm={deletePostById}
                   />
-                  <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
+                  <DefaultModal
+                    isModalOpen={isModalOpenEdit}
+                    setIsModalOpen={setIsModalEdit}
+                  >
                     <form onSubmit={handleEditSubmit}>
                       <div className="flex flex-col gap-6 items-center">
                         <DefaultInput
@@ -146,8 +161,13 @@ export const NewsList = ({ array }) => {
                           handleInputChange={handleInputChange}
                           name="title"
                         />
-                        <TextRich value={editPost.content} onChange={handleChange} />
-                        <YesButton textButton="Enviar" type="submit" />
+                        <div className="flex flex-col gap-6 items-center">
+                          <TextRich
+                            value={editPost.content}
+                            onChange={handleChange}
+                          />
+                          <YesButton textButton="Enviar" type="submit" />
+                        </div>
                       </div>
                     </form>
                   </DefaultModal>
