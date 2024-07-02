@@ -56,12 +56,19 @@ export const NewsPage = () => {
       files: image,
     };
     createPost(post);
+    // console.log(post);
   };
 
   return (
     <>
-      <DefaultTemplate textButton={"Noticia"} setIsModalOpenCreate={setIsModalOpenCreate}>
-        <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
+      <DefaultTemplate
+        textButton={"Noticia"}
+        setIsModalOpenCreate={setIsModalOpenCreate}
+      >
+        <DefaultModal
+          isModalOpen={isModalOpenCreate}
+          setIsModalOpen={setIsModalOpenCreate}
+        >
           <form onSubmit={handleSubmit} className="flex flex-col gap-8">
             <div className="flex flex-col gap-6 items-center">
               <FileInput
