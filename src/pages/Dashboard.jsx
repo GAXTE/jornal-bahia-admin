@@ -1,9 +1,4 @@
 import React, { useState } from "react";
-
-import Sidebar from "../partials/Sidebar";
-import Header from "../partials/Header";
-import WelcomeBanner from "../partials/dashboard/WelcomeBanner";
-import Datepicker from "../components/Datepicker";
 import DashboardCard01 from "../partials/dashboard/DashboardCard01";
 import DashboardCard02 from "../partials/dashboard/DashboardCard02";
 import DashboardCard03 from "../partials/dashboard/DashboardCard03";
@@ -12,8 +7,6 @@ import Banner from "../partials/Banner";
 import { DefaultTemplate } from "./DefaultTemplate/DefaultTemplate";
 
 function Dashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <>
       <DefaultTemplate styleButton={{ display: "none" }}>

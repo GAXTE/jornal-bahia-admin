@@ -6,7 +6,7 @@ const CategoryContext = createContext({});
 
 export const CategoryProvider = ({ children }) => {
   const navi = useNavigate();
-  const [ListAllCategories, setCategories] = useState();
+  const [ListAllCategories, setCategories] = useState(JSON.parse(localStorage.getItem("categories")));
 
   const getAllCategories = async () => {
     try {

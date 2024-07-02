@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import close from "../../assets/x.svg";
 
 export const DefaultModal = ({ isModalOpen, setIsModalOpen, children }) => {
@@ -14,6 +14,23 @@ export const DefaultModal = ({ isModalOpen, setIsModalOpen, children }) => {
       setIsModalOpen(false);
     }
   };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      setIsModalOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isModalOpen]);
+
   return (
     <>
       <AnimatePresence>

@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import LineChart from "../../charts/LineChart01";
+
 import Icon from "../../images/icon-01.svg";
 import EditMenu from "../../components/DropdownEditMenu";
 
@@ -18,11 +17,13 @@ function DashboardCard01() {
           {/* Menu button */}
           <EditMenu align="right" className="relative inline-flex"></EditMenu>
         </header>
-        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2">Numero de Notícias</h2>
+        <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100 mb-2">
+          Numero de Notícias
+        </h2>
         <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1"></div>
         <div className="flex items-start">
           <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2 mb-8">
-            {posts.length}
+            {posts ? posts.length : 0}
           </div>
           {/* <div className="text-sm font-semibold text-white px-1.5 bg-emerald-500 rounded-full">+49%</div> */}
         </div>

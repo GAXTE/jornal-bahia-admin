@@ -17,6 +17,7 @@ export const TagsPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     createTag(name);
+    setIsModalOpenCreate(false);
   };
   return (
     <>

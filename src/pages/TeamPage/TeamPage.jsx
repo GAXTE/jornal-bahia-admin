@@ -28,6 +28,7 @@ export const TeamPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     createUser(formValues);
+    setIsModalOpenCreate(false);
   };
 
   return (
@@ -54,7 +55,12 @@ export const TeamPage = () => {
                 handleInputChange={handleInputChange}
                 name={"password"}
               />
-              <SelectInput name1={"roleId"} array={roleList} handleInputChange={handleInputChange} />
+              <SelectInput
+                name1={"roleId"}
+                placeholder={"Escolha uma função"}
+                array={roleList}
+                handleInputChange={handleInputChange}
+              />
               <YesButton textButton={"Enviar"} type={"Submit"} />
             </div>
           </form>
