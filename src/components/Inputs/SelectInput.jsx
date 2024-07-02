@@ -7,7 +7,7 @@ export const SelectInput = ({ name1, array, handleInputChange, placeholder }) =>
         className="mt-1.5 w-full max-w-[350px] rounded-lg border-gray-300 text-gray-700 sm:text-sm"
       >
         <option value="">{placeholder}</option>
-        {array.length > 0 &&
+        {array &&
           array.map((obj) => (
             <option key={obj.id} value={obj.id}>
               {obj.name}
