@@ -28,18 +28,13 @@ export const TeamPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     createUser(formValues);
+    setIsModalOpenCreate(false);
   };
 
   return (
     <>
-      <DefaultTemplate
-        textButton={"Membro"}
-        setIsModalOpenCreate={setIsModalOpenCreate}
-      >
-        <DefaultModal
-          isModalOpen={isModalOpenCreate}
-          setIsModalOpen={setIsModalOpenCreate}
-        >
+      <DefaultTemplate textButton={"Membro"} setIsModalOpenCreate={setIsModalOpenCreate}>
+        <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6 items-center">
               <DefaultInput

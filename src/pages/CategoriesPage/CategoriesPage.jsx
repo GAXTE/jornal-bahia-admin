@@ -24,12 +24,12 @@ export const CategoriesPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsModalOpenCreate(false);
     const category = {
       name: categoryName,
       description: categoryDescription,
     };
     createCategory(category);
+    setIsModalOpenCreate(false);
   };
 
   return (
