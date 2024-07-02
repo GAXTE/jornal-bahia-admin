@@ -99,6 +99,7 @@ export const UserProvider = ({ children }) => {
         deleteUser,
         updateUser,
         user,
+        setUser,
       }}
     >
       {children}
