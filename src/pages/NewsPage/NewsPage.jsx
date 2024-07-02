@@ -19,7 +19,7 @@ export const NewsPage = () => {
   const [image, setImage] = useState(null);
   const [category, setCategory] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
-  const { AllPosts } = usePostContext();
+  const { AllPosts, createPost } = usePostContext();
   const { ListAlltags } = useTagsContext();
   const categories = JSON.parse(localStorage.getItem("categories"));
 
@@ -55,20 +55,13 @@ export const NewsPage = () => {
       tagIds: selectedTags,
       files: image,
     };
-    // createPost(post);
-    console.log(post);
+    createPost(post);
   };
 
   return (
     <>
-      <DefaultTemplate
-        textButton={"Noticia"}
-        setIsModalOpenCreate={setIsModalOpenCreate}
-      >
-        <DefaultModal
-          isModalOpen={isModalOpenCreate}
-          setIsModalOpen={setIsModalOpenCreate}
-        >
+      <DefaultTemplate textButton={"Noticia"} setIsModalOpenCreate={setIsModalOpenCreate}>
+        <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
           <form onSubmit={handleSubmit} className="flex flex-col gap-8">
             <div className="flex flex-col gap-6 items-center">
               <FileInput
