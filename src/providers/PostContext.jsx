@@ -5,7 +5,8 @@ const PostContext = createContext({});
 
 export const PostProvider = ({ children }) => {
   const [AllPosts, setGetAllPosts] = useState([]);
-  const [postMostState, setPostMostState] = useState();
+  const [postMostView, setPostMostView] = useState(0);
+
   const createPost = async (post) => {
     const { title, content, categoryId, tagIds, files } = post;
     try {
@@ -33,8 +34,11 @@ export const PostProvider = ({ children }) => {
       });
       sessionStorage.setItem("allPosts", "");
       getAllPosts();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   const getAllPosts = async () => {
     const cachedPosts = sessionStorage.getItem("allPosts");
     const lastFetchTime = sessionStorage.getItem("allPostsFetchTime");
@@ -54,24 +58,28 @@ export const PostProvider = ({ children }) => {
       sessionStorage.setItem("allPostsFetchTime", now.toString());
 
       setGetAllPosts(data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   const editPost = async (post, id) => {
     try {
-      if (!title || !content) {
-        console.log("todos os campos sao necessarios");
+      if (!post.title || !post.content) {
+        console.log("Todos os campos são necessários");
         return;
       }
-      const { data } = await Api.put(`/post/${id}`, {
-        post,
-      });
-    } catch (error) {}
+      const { data } = await Api.put(`/post/${id}`, post);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   const deletePost = async (id) => {
     const token = localStorage.getItem("token");
     try {
       if (!id) {
-        console.log("id e necessario");
+        console.log("ID é necessário");
         return;
       }
       const { data } = await Api.delete(`/post/${id}`, {
@@ -81,8 +89,11 @@ export const PostProvider = ({ children }) => {
       });
       sessionStorage.setItem("allPosts", "");
       getAllPosts();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   const updatePost = async (id, post) => {
     try {
       const { data } = await Api.put(`/post/${id}`, post);
@@ -92,11 +103,26 @@ export const PostProvider = ({ children }) => {
       console.log(error);
     }
   };
+
+  const postMostViews = async () => {
+    try {
+      const { data } = await Api.get("/filter/post/views");
+      const totalViews = data.reduce((sum, post) => sum + post.post_view_count, 0);
+      setPostMostView(totalViews);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getAllPosts();
+    postMostViews();
   }, []);
+
   return (
-    <PostContext.Provider value={{ createPost, getAllPosts, AllPosts, deletePost, updatePost }}>
+    <PostContext.Provider
+      value={{ createPost, getAllPosts, AllPosts, deletePost, updatePost, postMostViews, postMostView }}
+    >
       {children}
     </PostContext.Provider>
   );
