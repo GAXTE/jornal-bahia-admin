@@ -1,6 +1,7 @@
 import React from "react";
 
 function WelcomeBanner({ name }) {
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <div className="relative bg-slate-300 dark:bg-red-400 p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
       {/* Background illustration */}
@@ -17,13 +18,7 @@ function WelcomeBanner({ name }) {
               <stop stopColor="#000000" offset="0%" />
               <stop stopColor="#ff0000" offset="100%" />
             </linearGradient>
-            <linearGradient
-              x1="50%"
-              y1="24.537%"
-              x2="50%"
-              y2="100%"
-              id="welcome-c"
-            >
+            <linearGradient x1="50%" y1="24.537%" x2="50%" y2="100%" id="welcome-c">
               <stop stopColor="#000000" offset="0%" />
               <stop stopColor="#ff0000" stopOpacity="0" offset="100%" />
             </linearGradient>
@@ -34,33 +29,21 @@ function WelcomeBanner({ name }) {
                 <use xlinkHref="#welcome-a" />
               </mask>
               <use fill="url(#welcome-b)" xlinkHref="#welcome-a" />
-              <path
-                fill="url(#welcome-c)"
-                mask="url(#welcome-d)"
-                d="M64-24h80v152H64z"
-              />
+              <path fill="url(#welcome-c)" mask="url(#welcome-d)" d="M64-24h80v152H64z" />
             </g>
             <g transform="rotate(-51 91.324 -105.372)">
               <mask id="welcome-f" fill="#fff">
                 <use xlinkHref="#welcome-e" />
               </mask>
               <use fill="url(#welcome-b)" xlinkHref="#welcome-e" />
-              <path
-                fill="url(#welcome-c)"
-                mask="url(#welcome-f)"
-                d="M40.333-15.147h50v95h-50z"
-              />
+              <path fill="url(#welcome-c)" mask="url(#welcome-f)" d="M40.333-15.147h50v95h-50z" />
             </g>
             <g transform="rotate(44 61.546 392.623)">
               <mask id="welcome-h" fill="#fff">
                 <use xlinkHref="#welcome-g" />
               </mask>
               <use fill="url(#welcome-b)" xlinkHref="#welcome-g" />
-              <path
-                fill="url(#welcome-c)"
-                mask="url(#welcome-h)"
-                d="M40.333-15.147h50v95h-50z"
-              />
+              <path fill="url(#welcome-c)" mask="url(#welcome-h)" d="M40.333-15.147h50v95h-50z" />
             </g>
           </g>
         </svg>
@@ -69,7 +52,7 @@ function WelcomeBanner({ name }) {
       {/* Content */}
       <div className="relative">
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">
-          Olá, {name} 👋
+          Olá, {user.username} 👋
         </h1>
         <p className="dark:text-indigo-200">Seja bem vindo!</p>
       </div>
