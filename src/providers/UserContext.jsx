@@ -5,13 +5,17 @@ const UserContext = createContext({});
 export const UserProvider = ({ children }) => {
   const navi = useNavigate();
   const [ListAllUsers, setListAllUsers] = useState([]);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [roleList, setRoleList] = useState();
+  // const userLogged = JSON.parse(localStorage.getItem("user"));
+  // setUser(userLogged);
   const login = async (user) => {
     try {
       const { data } = await Api.post("/user/session", user);
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data));
-      navi("/");
+      setUser(data);
+      navi("/dashboard");
     } catch (error) {}
   };
   const forgot = async (email) => {
@@ -32,7 +36,10 @@ export const UserProvider = ({ children }) => {
   const validationCode = async (password, get_codePassword) => {
     const userId = localStorage.getItem("user-validation");
     try {
-      const { data } = await Api.post(`/user/password/new/${userId}`, { password, get_codePassword });
+      const { data } = await Api.post(`/user/password/new/${userId}`, {
+        password,
+        get_codePassword,
+      });
       navi("/login");
     } catch (error) {
       alert("Codigo invalido");
@@ -91,6 +98,7 @@ export const UserProvider = ({ children }) => {
         createUser,
         deleteUser,
         updateUser,
+        user,
       }}
     >
       {children}
