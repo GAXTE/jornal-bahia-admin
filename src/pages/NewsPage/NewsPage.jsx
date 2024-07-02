@@ -11,6 +11,7 @@ import { DefaultInput } from "../../components/Inputs/DefaultInput";
 import { CheckBoxInput } from "../../components/Inputs/CheckBoxInput";
 import { SelectInput } from "../../components/Inputs/SelectInput";
 import { YesButton } from "../../components/Buttons/YesButton";
+import { useCategoryContext } from "../../providers/CategoryContext";
 
 export const NewsPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
@@ -21,7 +22,7 @@ export const NewsPage = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const { AllPosts, createPost } = usePostContext();
   const { ListAlltags } = useTagsContext();
-  const categories = JSON.parse(localStorage.getItem("categories"));
+  const { ListAllCategories } = useCategoryContext();
 
   const handleChange = (content) => {
     setEditContent(content);
@@ -93,7 +94,7 @@ export const NewsPage = () => {
               </div>
               <SelectInput
                 name1={"category"}
-                array={categories}
+                array={ListAllCategories}
                 placeholder={"Escolha uma categoria"}
                 handleInputChange={handleInputChange}
               />

@@ -1,4 +1,7 @@
+import { useEffect } from "react";
+
 export const SelectInput = ({ name1, array, handleInputChange, placeholder }) => {
+  useEffect(() => {}, [array]);
   return (
     <>
       <select
