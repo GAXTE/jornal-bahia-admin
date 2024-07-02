@@ -43,7 +43,7 @@ export const TeamList = ({ array }) => {
 
   const handleEditClick = (user) => () => {
     setSelectedUserId(user.id);
-    setEditValues({ name: user.name, email: user.email });
+    setEditValues({ name: user.username, email: user.email });
     setIsModalEdit(true);
   };
 
