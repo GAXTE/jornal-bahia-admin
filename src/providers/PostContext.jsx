@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Api } from "../services/api";
+import { toast } from "react-toastify";
 
 const PostContext = createContext({});
 
@@ -9,11 +10,12 @@ export const PostProvider = ({ children }) => {
 
   const createPost = async (post) => {
     const { title, content, categoryId, tagIds, files } = post;
-    try {
-      if (!title || !content || !categoryId || !tagIds.length) {
-        console.log("Todos os campos são necessários");
-        return;
-      }
+    if (!title || !content || !categoryId || !tagIds.length) {
+      toast.warning("Todos os campos são obrigatórios");
+      throw new Error("Todos os campos são obrigatórios");
+    }
+
+    const createPromise = async () => {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("content", content);
@@ -34,16 +36,77 @@ export const PostProvider = ({ children }) => {
       });
       sessionStorage.setItem("allPosts", "");
       getAllPosts();
-    } catch (error) {
-      console.log(error);
+      return data;
+    };
+
+    toast.promise(createPromise(), {
+      pending: "Criando post...",
+      success: "Post criado com sucesso!",
+      error: {
+        render({ data }) {
+          return data.message || "Erro ao criar o post";
+        },
+      },
+    });
+  };
+
+  const deletePost = async (id) => {
+    const token = localStorage.getItem("token");
+
+    const deletePromise = async () => {
+      if (!id) {
+        throw new Error("ID é necessário");
+      }
+      const { data } = await Api.delete(`/post/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      sessionStorage.setItem("allPosts", "");
+      getAllPosts();
+      return data;
+    };
+
+    toast.promise(deletePromise(), {
+      pending: "Deletando post...",
+      success: "Post deletado com sucesso!",
+      error: {
+        render({ data }) {
+          return data.message || "Erro ao deletar o post";
+        },
+      },
+    });
+  };
+
+  const updatePost = async (id, post) => {
+    if (!post.title || !post.content) {
+      toast.error("Todos os campos são necessários");
+      throw new Error("Todos os campos são necessários");
     }
+
+    const updatePromise = async () => {
+      const { data } = await Api.put(`/post/${id}`, post);
+      sessionStorage.setItem("allPosts", "");
+      getAllPosts();
+      return data;
+    };
+
+    toast.promise(updatePromise(), {
+      pending: "Atualizando post...",
+      success: "Post atualizado com sucesso!",
+      error: {
+        render({ data }) {
+          return data.message || "Erro ao atualizar o post";
+        },
+      },
+    });
   };
 
   const getAllPosts = async () => {
     const cachedPosts = sessionStorage.getItem("allPosts");
     const lastFetchTime = sessionStorage.getItem("allPostsFetchTime");
 
-    const tenMinutes = 5 * 60 * 1000;
+    const tenMinutes = 10 * 60 * 1000;
     const now = new Date().getTime();
 
     if (cachedPosts && lastFetchTime && now - parseInt(lastFetchTime) < tenMinutes) {
@@ -63,54 +126,13 @@ export const PostProvider = ({ children }) => {
     }
   };
 
-  const editPost = async (post, id) => {
-    try {
-      if (!post.title || !post.content) {
-        console.log("Todos os campos são necessários");
-        return;
-      }
-      const { data } = await Api.put(`/post/${id}`, post);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const deletePost = async (id) => {
-    const token = localStorage.getItem("token");
-    try {
-      if (!id) {
-        console.log("ID é necessário");
-        return;
-      }
-      const { data } = await Api.delete(`/post/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      sessionStorage.setItem("allPosts", "");
-      getAllPosts();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const updatePost = async (id, post) => {
-    try {
-      const { data } = await Api.put(`/post/${id}`, post);
-      sessionStorage.setItem("allPosts", "");
-      getAllPosts();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const postMostViews = async () => {
     try {
       const { data } = await Api.get("/filter/post/views");
       const totalViews = data.reduce((sum, post) => sum + post.post_view_count, 0);
       setPostMostView(totalViews);
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 

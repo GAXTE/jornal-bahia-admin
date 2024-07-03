@@ -12,7 +12,8 @@ import { TagsPage } from "./pages/TagsPage/TagsPage";
 import { AddsPage } from "./pages/AddsPage/AddsPage";
 import { TeamPage } from "./pages/TeamPage/TeamPage";
 import { RouterMain } from "./Routes/Routes";
-
+import { Flip, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const location = useLocation();
 
@@ -25,6 +26,19 @@ function App() {
   return (
     <>
       <RouterMain />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Flip}
+      />
     </>
   );
 }

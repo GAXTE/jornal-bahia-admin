@@ -12,6 +12,7 @@ import { CheckBoxInput } from "../../components/Inputs/CheckBoxInput";
 import { SelectInput } from "../../components/Inputs/SelectInput";
 import { YesButton } from "../../components/Buttons/YesButton";
 import { useCategoryContext } from "../../providers/CategoryContext";
+import { toast } from "react-toastify";
 
 export const NewsPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
@@ -56,9 +57,13 @@ export const NewsPage = () => {
       tagIds: selectedTags,
       files: image,
     };
-    setIsModalOpenCreate(false);
-    createPost(post);
-    // console.log(post);
+    createPost(post)
+      .then((response) => {
+        setIsModalOpenCreate(false);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (

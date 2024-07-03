@@ -27,8 +27,20 @@ export const TeamPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createUser(formValues);
-    setIsModalOpenCreate(false);
+    createUser(formValues)
+      .then(() => {
+        setIsModalOpenCreate(false);
+        formValues.username = "";
+        formValues.email = "";
+        formValues.password = "";
+        formValues.roleId = "";
+      })
+      .catch((error) => {
+        formValues.username = "";
+        formValues.email = "";
+        formValues.password = "";
+        formValues.roleId = "";
+      });
   };
 
   return (

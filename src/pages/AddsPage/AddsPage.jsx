@@ -7,6 +7,7 @@ import { DefaultInput } from "../../components/Inputs/DefaultInput";
 import { FileInput } from "../../components/Inputs/FileInput";
 import { SelectInput } from "../../components/Inputs/SelectInput";
 import { YesButton } from "../../components/Buttons/YesButton";
+import { toast } from "react-toastify";
 
 export const AddsPage = () => {
   const [isModalOpenCreate, setIsModalOpenCreate] = useState(false);
@@ -36,6 +37,10 @@ export const AddsPage = () => {
     e.preventDefault();
 
     try {
+      if (description === "" || link === "" || type === "" || files.length === 0) {
+        toast.warning("Preencha todos os campos");
+        return;
+      }
       const formData = new FormData();
       formData.append("description", description);
       formData.append("link", link);
@@ -45,9 +50,13 @@ export const AddsPage = () => {
           formData.append("files", files[i]);
         }
       }
-      await createPublicity(formData);
-
-      setIsModalOpenCreate(false);
+      await createPublicity(formData)
+        .then(() => {
+          setIsModalOpenCreate(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } catch (error) {
       console.error("Erro ao criar propaganda:", error);
     }

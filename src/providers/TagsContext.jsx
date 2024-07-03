@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Api } from "../services/api";
+import { toast } from "react-toastify";
 
 const TagsContext = createContext({});
 
@@ -14,29 +15,73 @@ export const TagsProvider = ({ children }) => {
       setListAllTags(data);
     } catch (error) {}
   };
+
   const createTag = async (name) => {
-    const obj = {
-      name: name,
-    };
-    try {
-      const { data } = await Api.post("/tag", obj);
-      getAllTags();
-    } catch (error) {}
-  };
-  const deleteTag = async (id) => {
-    try {
-      const { data } = await Api.delete(`/tag/${id}`);
-      getAllTags();
-    } catch (error) {}
-  };
-  const updateTag = async (tag) => {
-    try {
-      const { data } = await Api.put(`/tag/`, tag);
-      getAllTags();
-    } catch (error) {
-      console.log(error);
+    if (!name) {
+      toast.warning("Preencha o campo de nome");
+      throw new Error("Preencha o campo de nome");
     }
+
+    const obj = { name };
+
+    const createPromise = async () => {
+      const { data } = await Api.post("/tag", obj);
+      await getAllTags();
+      return data;
+    };
+
+    toast.promise(createPromise(), {
+      pending: "Criando tag...",
+      success: "Tag criada com sucesso!",
+      error: {
+        render({ data }) {
+          return data.message || "Erro ao criar a tag";
+        },
+      },
+    });
   };
+
+  const deleteTag = async (id) => {
+    const deletePromise = async () => {
+      const { data } = await Api.delete(`/tag/${id}`);
+      await getAllTags();
+      return data;
+    };
+
+    toast.promise(deletePromise(), {
+      pending: "Deletando tag...",
+      success: "Tag deletada com sucesso!",
+      error: {
+        render({ data }) {
+          return data.message || "Erro ao deletar a tag";
+        },
+      },
+    });
+  };
+
+  const updateTag = async (tag) => {
+    if (!tag.name) {
+      toast.warning("Preencha o campo de nome");
+      throw new Error("Preencha o campo de nome");
+    }
+
+    const updatePromise = async () => {
+      const { data } = await Api.put(`/tag/`, tag);
+      await getAllTags();
+      return data;
+    };
+
+    toast.promise(updatePromise(), {
+      pending: "Atualizando tag...",
+      success: "Tag atualizada com sucesso!",
+      error: {
+        render({ data }) {
+          return data.message || "Erro ao atualizar a tag";
+        },
+      },
+    });
+  };
+
   useEffect(() => {
     getAllTags();
   }, []);

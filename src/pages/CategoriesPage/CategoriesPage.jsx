@@ -28,8 +28,13 @@ export const CategoriesPage = () => {
       name: categoryName,
       description: categoryDescription,
     };
-    createCategory(category);
-    setIsModalOpenCreate(false);
+    createCategory(category)
+      .then((response) => {
+        setIsModalOpenCreate(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

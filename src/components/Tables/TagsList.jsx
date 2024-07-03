@@ -7,6 +7,7 @@ import { DefaultInput } from "../Inputs/DefaultInput";
 import { useTagsContext } from "../../providers/TagsContext";
 import { useNavigate } from "react-router-dom";
 import { YesButton } from "../Buttons/YesButton";
+import { toast } from "react-toastify";
 
 export const TagsList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -65,8 +66,11 @@ export const TagsList = ({ array }) => {
       id: selectedTagId,
       ...filteredValues,
     };
-    updateTag(obj);
-    setIsModalEdit(false);
+    updateTag(obj)
+      .then((response) => {
+        setIsModalEdit(false);
+      })
+      .catch((error) => {});
   };
 
   return (
