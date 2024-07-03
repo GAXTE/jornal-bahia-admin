@@ -85,7 +85,11 @@ export const PostProvider = ({ children }) => {
     }
 
     const updatePromise = async () => {
-      const { data } = await Api.put(`/post/${id}`, post);
+      const { data } = await Api.put(`/post/${id}`, post, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       sessionStorage.setItem("allPosts", "");
       getAllPosts();
       return data;

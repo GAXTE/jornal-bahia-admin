@@ -23,6 +23,7 @@ export const PublicityProvider = ({ children }) => {
       const { data } = await Api.post("/ad/new", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       await listAllPublicity();
@@ -42,7 +43,11 @@ export const PublicityProvider = ({ children }) => {
 
   const deleteAdd = async (id) => {
     const deletePromise = async () => {
-      const { data } = await Api.delete(`/ad/delete/${id}`);
+      const { data } = await Api.delete(`/ad/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       await listAllPublicity();
       return data;
     };
@@ -70,6 +75,7 @@ export const PublicityProvider = ({ children }) => {
       const { data } = await Api.put(`/ad/update/${add}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       await listAllPublicity();

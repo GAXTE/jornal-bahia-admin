@@ -8,8 +8,7 @@ export const UserProvider = ({ children }) => {
   const [ListAllUsers, setListAllUsers] = useState([]);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [roleList, setRoleList] = useState();
-  // const userLogged = JSON.parse(localStorage.getItem("user"));
-  // setUser(userLogged);
+  const token = localStorage.getItem("token");
 
   const login = async (user) => {
     const loginPromise = async () => {
@@ -91,13 +90,21 @@ export const UserProvider = ({ children }) => {
   };
   const listAllUsers = async () => {
     try {
-      const { data } = await Api.get("/user");
+      const { data } = await Api.get("/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setListAllUsers(data);
     } catch (error) {}
   };
   const listAllRoles = async () => {
     try {
-      const { data } = await Api.get("/role");
+      const { data } = await Api.get("/role", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setRoleList(data);
     } catch (error) {}
   };
@@ -107,7 +114,11 @@ export const UserProvider = ({ children }) => {
       throw new Error("Preencha todos os campos");
     }
     const createPromise = async () => {
-      const { data } = await Api.post("/user", user);
+      const { data } = await Api.post("/user", user, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       await listAllUsers();
       return data;
     };
@@ -126,7 +137,11 @@ export const UserProvider = ({ children }) => {
   };
   const deleteUser = async (id) => {
     const deletePromise = async () => {
-      const { data } = await Api.delete(`/user/${id}`);
+      const { data } = await Api.delete(`/user/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       await listAllUsers();
       return data;
     };
@@ -149,7 +164,11 @@ export const UserProvider = ({ children }) => {
       throw new Error("Pelo menos um dos campos devem ser atualizados");
     }
     const updatePromise = async () => {
-      const { data } = await Api.put(`/user/${id}`, user);
+      const { data } = await Api.put(`/user/${id}`, user, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       await listAllUsers();
       return data;
     };
@@ -164,10 +183,6 @@ export const UserProvider = ({ children }) => {
       },
     });
   };
-  useEffect(() => {
-    listAllUsers();
-    listAllRoles();
-  }, []);
   return (
     <UserContext.Provider
       value={{
@@ -182,6 +197,8 @@ export const UserProvider = ({ children }) => {
         updateUser,
         user,
         setUser,
+        listAllUsers,
+        listAllRoles,
       }}
     >
       {children}
