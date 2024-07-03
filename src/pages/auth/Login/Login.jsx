@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import logo from "../../../assets/Logo.png";
 import { useUserContext } from "../../../providers/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navi = useNavigate();
   const { login } = useUserContext();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,7 +57,10 @@ export const LoginPage = () => {
         <div className="flex items-center justify-center py-4 text-center bg-gray-50 dark:bg-gray-700">
           <span className="text-sm text-gray-600 dark:text-gray-200">Esqueceu sua senha? </span>
 
-          <a href="#" className="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline">
+          <a
+            onClick={() => navi("/forgot")}
+            className="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
+          >
             Clique aqui
           </a>
         </div>

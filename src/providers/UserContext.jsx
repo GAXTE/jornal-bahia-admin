@@ -26,7 +26,11 @@ export const UserProvider = ({ children }) => {
       success: "Login realizado com sucesso!",
       error: {
         render({ data }) {
-          return data.message || "Erro ao realizar login";
+          if (data.response.data.error === "User/Password not found") {
+            return "Usuário ou senha inválidos";
+          } else {
+            return "Erro ao realizar login";
+          }
         },
       },
     });
@@ -62,14 +66,27 @@ export const UserProvider = ({ children }) => {
         password,
         get_codePassword,
       });
-      navi("/login");
+      navi("/");
       return data;
     };
 
     toast.promise(validationPromise(), {
       pending: "Validando código...",
       success: "Código validado com sucesso!",
-      error: "Código inválido",
+      error: {
+        render({ data }) {
+          if (data.response.data.error === "Failed to: User not found") {
+            return "Usuário não solicitou codigo de recuperação";
+          }
+          if (data.response.data.error === "Failed to: Invalid code") {
+            return "Código inválido";
+          }
+          if (data.response.data.error === "Failed to: Time expired to send code") {
+            return "Código expirado";
+          }
+          return "Erro ao validar código";
+        },
+      },
     });
   };
   const listAllUsers = async () => {
