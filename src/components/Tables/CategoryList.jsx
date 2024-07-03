@@ -60,8 +60,13 @@ export const CategoryList = ({ array }) => {
       id: selectedCategoryId,
       ...filteredValues,
     };
-    updateCategory(obj);
-    setIsModalEdit(false);
+    updateCategory(obj)
+      .then((response) => {
+        setIsModalEdit(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const truncateTitle = (title) => {

@@ -8,6 +8,7 @@ import { DefaultModal } from "../Modals/DefaultModal";
 import { DefaultInput } from "../Inputs/DefaultInput";
 import { YesButton } from "../Buttons/YesButton";
 import { SelectInput } from "../Inputs/SelectInput";
+import { toast } from "react-toastify";
 
 export const TeamList = ({ array }) => {
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
@@ -65,8 +66,13 @@ export const TeamList = ({ array }) => {
       username: filteredValues.name,
       email: filteredValues.email,
     };
-    updateUser(selectedUserId, obj);
-    setIsModalEdit(false);
+    updateUser(selectedUserId, obj)
+      .then(() => {
+        setIsModalEdit(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
