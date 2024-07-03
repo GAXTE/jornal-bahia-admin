@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Api } from "../services/api";
+import { toast } from "react-toastify";
 
 const CategoryContext = createContext({});
 
@@ -17,31 +18,77 @@ export const CategoryProvider = ({ children }) => {
   };
 
   const createCategory = async (category) => {
-    try {
+    if (!category.name || !category.description) {
+      toast.warning("Todos os campos são obrigatórios");
+      throw new Error("Todos os campos são obrigatórios");
+    }
+
+    const createPromise = async () => {
       const { data } = await Api.post("/category", category);
-      getAllCategories();
-    } catch (error) {}
+      await getAllCategories();
+      return data;
+    };
+
+    toast.promise(createPromise(), {
+      pending: "Criando categoria...",
+      success: "Categoria criada com sucesso!",
+      error: {
+        render({ data }) {
+          return data.message || "Erro ao criar a categoria";
+        },
+      },
+    });
   };
+
   const deleteCategory = async (id) => {
     const obj = {
       data: { id },
     };
-    try {
+
+    const deletePromise = async () => {
       const { data } = await Api.delete("/category", obj);
-      getAllCategories();
-    } catch (error) {
-      console.log(error);
-    }
+      await getAllCategories();
+      return data;
+    };
+
+    toast.promise(deletePromise(), {
+      pending: "Deletando categoria...",
+      success: "Categoria deletada com sucesso!",
+      error: {
+        render({ data }) {
+          return data.message || "Erro ao deletar a categoria";
+        },
+      },
+    });
   };
+
   const updateCategory = async (category) => {
-    try {
+    if (!category.name && !category.description) {
+      toast.warning("Pelo menos um campo deve ser preenchido");
+      throw new Error("Pelo menos um campo deve ser preenchido");
+    }
+
+    const updatePromise = async () => {
       const { data } = await Api.put("/category", category);
-      getAllCategories();
-    } catch (error) {}
+      await getAllCategories();
+      return data;
+    };
+
+    toast.promise(updatePromise(), {
+      pending: "Atualizando categoria...",
+      success: "Categoria atualizada com sucesso!",
+      error: {
+        render({ data }) {
+          return data.message || "Erro ao atualizar a categoria";
+        },
+      },
+    });
   };
+
   useEffect(() => {
     getAllCategories();
   }, []);
+
   return (
     <CategoryContext.Provider value={{ ListAllCategories, createCategory, deleteCategory, updateCategory }}>
       {children}

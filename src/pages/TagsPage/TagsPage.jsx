@@ -16,8 +16,13 @@ export const TagsPage = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    createTag(name);
-    setIsModalOpenCreate(false);
+    createTag(name)
+      .then(() => {
+        setIsModalOpenCreate(false);
+      })
+      .catch((error) => {
+        console.log(err);
+      });
   };
   return (
     <>

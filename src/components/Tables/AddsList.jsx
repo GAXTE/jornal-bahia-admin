@@ -10,11 +10,15 @@ import { SelectInput } from "../Inputs/SelectInput";
 import { YesButton } from "../Buttons/YesButton";
 import { usePublicityContext } from "../../providers/PublicityContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const copyToClipboard = async (text) => {
   try {
     await navigator.clipboard.writeText(text);
-    alert("Copiado para a área de transferência!"); // Feedback simples para o usuário
+    toast.success("Link copiado com sucesso!", {
+      autoClose: true,
+      position: "top-center ",
+    });
   } catch (err) {
     console.error("Falha ao copiar: ", err);
   }
@@ -57,8 +61,13 @@ export const AddsList = ({ array }) => {
     const { link } = editValues;
     const filteredValues = {};
     if (link.trim() !== "") filteredValues.link = link;
-    updateAdd(selectedAddId, link);
-    setIsModalEdit(false);
+    updateAdd(selectedAddId, link)
+      .then(() => {
+        setIsModalEdit(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const getAddFromUrl = () => {
