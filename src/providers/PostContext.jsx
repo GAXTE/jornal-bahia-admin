@@ -32,6 +32,7 @@ export const PostProvider = ({ children }) => {
       const { data } = await Api.post("/post", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       sessionStorage.setItem("allPosts", "");
