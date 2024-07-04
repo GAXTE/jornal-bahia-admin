@@ -197,7 +197,6 @@ export const UserProvider = ({ children }) => {
         updateUser,
         user,
         setUser,
-        listAllUsers,
         listAllRoles,
       }}
     >
