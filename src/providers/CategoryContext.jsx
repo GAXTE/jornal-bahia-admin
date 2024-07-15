@@ -7,6 +7,7 @@ const CategoryContext = createContext({});
 
 export const CategoryProvider = ({ children }) => {
   const navi = useNavigate();
+  const token = localStorage.getItem("token");
   const [ListAllCategories, setCategories] = useState(JSON.parse(localStorage.getItem("categories")));
 
   const getAllCategories = async () => {
@@ -24,7 +25,11 @@ export const CategoryProvider = ({ children }) => {
     }
 
     const createPromise = async () => {
-      const { data } = await Api.post("/category", category);
+      const { data } = await Api.post("/category", category, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       await getAllCategories();
       return data;
     };
@@ -41,12 +46,13 @@ export const CategoryProvider = ({ children }) => {
   };
 
   const deleteCategory = async (id) => {
-    const obj = {
-      data: { id },
-    };
-
     const deletePromise = async () => {
-      const { data } = await Api.delete("/category", obj);
+      const { data } = await Api.delete("/category", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: { id }, // Aqui estamos garantindo que o ID será enviado no corpo da requisição
+      });
       await getAllCategories();
       return data;
     };
@@ -56,12 +62,12 @@ export const CategoryProvider = ({ children }) => {
       success: "Categoria deletada com sucesso!",
       error: {
         render({ data }) {
+          console.log(data.response);
           return data.message || "Erro ao deletar a categoria";
         },
       },
     });
   };
-
   const updateCategory = async (category) => {
     if (!category.name && !category.description) {
       toast.warning("Pelo menos um campo deve ser preenchido");
@@ -69,7 +75,11 @@ export const CategoryProvider = ({ children }) => {
     }
 
     const updatePromise = async () => {
-      const { data } = await Api.put("/category", category);
+      const { data } = await Api.put("/category", category, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       await getAllCategories();
       return data;
     };

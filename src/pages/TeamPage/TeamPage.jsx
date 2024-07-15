@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TeamList } from "../../components/Tables/TeamList";
 import { DefaultTemplate } from "../DefaultTemplate/DefaultTemplate";
 import { useUserContext } from "../../providers/UserContext";
@@ -15,7 +15,11 @@ export const TeamPage = () => {
     password: "",
     roleId: "",
   });
-  const { ListAllUsers, roleList, createUser } = useUserContext();
+  const { ListAllUsers, roleList, createUser, listAllUsers, listAllRoles } = useUserContext();
+  useEffect(() => {
+    listAllUsers();
+    listAllRoles();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

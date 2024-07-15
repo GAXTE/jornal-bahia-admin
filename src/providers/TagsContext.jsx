@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 const TagsContext = createContext({});
 
 export const TagsProvider = ({ children }) => {
+  const token = localStorage.getItem("token");
   const navi = useNavigate();
   const [ListAlltags, setListAllTags] = useState([]);
   const getAllTags = async () => {
@@ -13,7 +14,9 @@ export const TagsProvider = ({ children }) => {
       const { data } = await Api.get("/tag");
       localStorage.setItem("tags", JSON.stringify(data));
       setListAllTags(data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const createTag = async (name) => {
@@ -25,7 +28,11 @@ export const TagsProvider = ({ children }) => {
     const obj = { name };
 
     const createPromise = async () => {
-      const { data } = await Api.post("/tag", obj);
+      const { data } = await Api.post("/tag", obj, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       await getAllTags();
       return data;
     };
@@ -35,7 +42,10 @@ export const TagsProvider = ({ children }) => {
       success: "Tag criada com sucesso!",
       error: {
         render({ data }) {
-          return data.message || "Erro ao criar a tag";
+          if (data.response.data.error === "Failed to create tag: Tag already exists") {
+            return "Tag ja existe";
+          }
+          console.log(data.response.data.error);
         },
       },
     });
@@ -43,7 +53,11 @@ export const TagsProvider = ({ children }) => {
 
   const deleteTag = async (id) => {
     const deletePromise = async () => {
-      const { data } = await Api.delete(`/tag/${id}`);
+      const { data } = await Api.delete(`/tag/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       await getAllTags();
       return data;
     };
@@ -66,7 +80,11 @@ export const TagsProvider = ({ children }) => {
     }
 
     const updatePromise = async () => {
-      const { data } = await Api.put(`/tag/`, tag);
+      const { data } = await Api.put(`/tag/`, tag, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       await getAllTags();
       return data;
     };

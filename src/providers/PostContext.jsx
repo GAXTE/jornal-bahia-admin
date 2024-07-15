@@ -9,7 +9,9 @@ export const PostProvider = ({ children }) => {
   const [postMostView, setPostMostView] = useState(0);
 
   const createPost = async (post) => {
+    console.log(post);
     const { title, content, categoryId, tagIds, files } = post;
+
     if (!title || !content || !categoryId || !tagIds.length) {
       toast.warning("Todos os campos são obrigatórios");
       throw new Error("Todos os campos são obrigatórios");
@@ -24,16 +26,18 @@ export const PostProvider = ({ children }) => {
       const tagsToAppend = tagIds.length === 1 ? [tagIds[0], tagIds[0]] : tagIds;
       tagsToAppend.forEach((tagId) => formData.append("tagIds", tagId));
 
-      if (files?.length) {
-        for (let i = 0; i < files.length; i++) {
-          formData.append("files", files[i]);
-        }
+      if (files && files.name) {
+        formData.append("files", files);
+      } else {
       }
+
       const { data } = await Api.post("/post", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+
       sessionStorage.setItem("allPosts", "");
       getAllPosts();
       return data;
@@ -44,6 +48,7 @@ export const PostProvider = ({ children }) => {
       success: "Post criado com sucesso!",
       error: {
         render({ data }) {
+          console.log(data.response.data);
           return data.message || "Erro ao criar o post";
         },
       },
@@ -85,7 +90,11 @@ export const PostProvider = ({ children }) => {
     }
 
     const updatePromise = async () => {
-      const { data } = await Api.put(`/post/${id}`, post);
+      const { data } = await Api.put(`/post/${id}`, post, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       sessionStorage.setItem("allPosts", "");
       getAllPosts();
       return data;
