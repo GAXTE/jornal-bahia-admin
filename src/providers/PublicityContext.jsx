@@ -19,6 +19,7 @@ export const PublicityProvider = ({ children }) => {
   };
 
   const createPublicity = async (formData) => {
+    const token = localStorage.getItem("token");
     const createPromise = async () => {
       const { data } = await Api.post("/ad/new", formData, {
         headers: {
