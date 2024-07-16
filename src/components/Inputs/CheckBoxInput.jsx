@@ -13,7 +13,7 @@ export const CheckBoxInput = ({
         <div className="space-y-2">
           <label
             htmlFor={htmlFor}
-            className="flex cursor-pointer items-start gap-[4px]"
+            className="flex flex-wrap cursor-pointer items-start gap-[4px]"
           >
             <div className="flex items-center">
               &#8203;

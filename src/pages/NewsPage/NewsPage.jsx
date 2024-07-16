@@ -68,8 +68,14 @@ export const NewsPage = () => {
 
   return (
     <>
-      <DefaultTemplate textButton={"Noticia"} setIsModalOpenCreate={setIsModalOpenCreate}>
-        <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
+      <DefaultTemplate
+        textButton={"Noticia"}
+        setIsModalOpenCreate={setIsModalOpenCreate}
+      >
+        <DefaultModal
+          isModalOpen={isModalOpenCreate}
+          setIsModalOpen={setIsModalOpenCreate}
+        >
           <form onSubmit={handleSubmit} className="flex flex-col gap-8">
             <div className="flex flex-col gap-6 items-center">
               <FileInput
@@ -84,7 +90,7 @@ export const NewsPage = () => {
                 handleInputChange={handleInputChange}
                 name={"title"}
               />
-              <div className="flex gap-3">
+              <div className="flex justify-center gap-3 max-w-[500px] max-h-[100px] overflow-auto flex-wrap">
                 {ListAlltags.map((tag) => (
                   <div key={tag.id}>
                     <CheckBoxInput
