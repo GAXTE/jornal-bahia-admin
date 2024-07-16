@@ -2,7 +2,10 @@ export const FileInput = ({ type, accept, handleFileChange, text }) => {
   return (
     <>
       <div>
-        <label htmlFor="Arquivo" className="block text-sm text-gray-500 dark:text-gray-300">
+        <label
+          htmlFor="Arquivo"
+          className="block text-sm text-gray-500 dark:text-gray-300"
+        >
           {text}
         </label>
 

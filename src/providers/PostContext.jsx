@@ -9,12 +9,16 @@ export const PostProvider = ({ children }) => {
   const [postMostView, setPostMostView] = useState(0);
 
   const createPost = async (post) => {
-    console.log(post);
     const { title, content, categoryId, tagIds, files } = post;
 
     if (!title || !content || !categoryId || !tagIds.length) {
       toast.warning("Todos os campos são obrigatórios");
       throw new Error("Todos os campos são obrigatórios");
+    }
+
+    if (files && files.name && /\s/.test(files.name)) {
+      toast.warning("O nome do arquivo não deve conter espaços");
+      throw new Error("O nome do arquivo não deve conter espaços");
     }
 
     const createPromise = async () => {
@@ -23,7 +27,8 @@ export const PostProvider = ({ children }) => {
       formData.append("content", content);
       formData.append("categoryId", categoryId);
 
-      const tagsToAppend = tagIds.length === 1 ? [tagIds[0], tagIds[0]] : tagIds;
+      const tagsToAppend =
+        tagIds.length === 1 ? [tagIds[0], tagIds[0]] : tagIds;
       tagsToAppend.forEach((tagId) => formData.append("tagIds", tagId));
 
       if (files && files.name) {
@@ -118,7 +123,11 @@ export const PostProvider = ({ children }) => {
     const tenMinutes = 10 * 60 * 1000;
     const now = new Date().getTime();
 
-    if (cachedPosts && lastFetchTime && now - parseInt(lastFetchTime) < tenMinutes) {
+    if (
+      cachedPosts &&
+      lastFetchTime &&
+      now - parseInt(lastFetchTime) < tenMinutes
+    ) {
       setGetAllPosts(JSON.parse(cachedPosts));
       return;
     }
@@ -138,7 +147,10 @@ export const PostProvider = ({ children }) => {
   const postMostViews = async () => {
     try {
       const { data } = await Api.get("/filter/post/views");
-      const totalViews = data.reduce((sum, post) => sum + post.post_view_count, 0);
+      const totalViews = data.reduce(
+        (sum, post) => sum + post.post_view_count,
+        0
+      );
       setPostMostView(totalViews);
     } catch (error) {
       throw error;
@@ -152,7 +164,15 @@ export const PostProvider = ({ children }) => {
 
   return (
     <PostContext.Provider
-      value={{ createPost, getAllPosts, AllPosts, deletePost, updatePost, postMostViews, postMostView }}
+      value={{
+        createPost,
+        getAllPosts,
+        AllPosts,
+        deletePost,
+        updatePost,
+        postMostViews,
+        postMostView,
+      }}
     >
       {children}
     </PostContext.Provider>
