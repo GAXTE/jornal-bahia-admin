@@ -6,15 +6,6 @@ export const DefaultModal = ({ isModalOpen, setIsModalOpen, children }) => {
   const modalContentRef = useRef(null);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
-  const closeModalIfClickedOutside = (event) => {
-    if (
-      modalContentRef.current &&
-      !modalContentRef.current.contains(event.target)
-    ) {
-      setIsModalOpen(false);
-    }
-  };
-
   const handleKeyDown = (event) => {
     if (event.key === "Escape") {
       setIsModalOpen(false);
@@ -35,10 +26,7 @@ export const DefaultModal = ({ isModalOpen, setIsModalOpen, children }) => {
     <>
       <AnimatePresence>
         {isModalOpen && (
-          <div
-            onClick={closeModalIfClickedOutside}
-            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center "
-          >
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center ">
             <motion.div
               // initial={{ opacity: 0, x: 50 }}
               // animate={{ opacity: 1, x: 0 }}
