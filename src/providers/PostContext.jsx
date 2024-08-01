@@ -117,26 +117,26 @@ export const PostProvider = ({ children }) => {
   };
 
   const getAllPosts = async () => {
-    const cachedPosts = sessionStorage.getItem("allPosts");
-    const lastFetchTime = sessionStorage.getItem("allPostsFetchTime");
+    // const cachedPosts = sessionStorage.getItem("allPosts");
+    // const lastFetchTime = sessionStorage.getItem("allPostsFetchTime");
 
-    const tenMinutes = 10 * 60 * 1000;
-    const now = new Date().getTime();
+    // const tenMinutes = 10 * 60 * 1000;
+    // const now = new Date().getTime();
 
-    if (
-      cachedPosts &&
-      lastFetchTime &&
-      now - parseInt(lastFetchTime) < tenMinutes
-    ) {
-      setGetAllPosts(JSON.parse(cachedPosts));
-      return;
-    }
+    // if (
+    //   cachedPosts &&
+    //   lastFetchTime &&
+    //   now - parseInt(lastFetchTime) < tenMinutes
+    // ) {
+    //   setGetAllPosts(JSON.parse(cachedPosts));
+    //   return;
+    // }
 
     try {
       const { data } = await Api.get("/post");
       data.reverse();
-      sessionStorage.setItem("allPosts", JSON.stringify(data));
-      sessionStorage.setItem("allPostsFetchTime", now.toString());
+      // sessionStorage.setItem("allPosts", JSON.stringify(data));
+      // sessionStorage.setItem("allPostsFetchTime", now.toString());
 
       setGetAllPosts(data);
     } catch (error) {

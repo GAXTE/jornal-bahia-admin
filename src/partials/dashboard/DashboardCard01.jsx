@@ -5,8 +5,10 @@ import EditMenu from "../../components/DropdownEditMenu";
 
 // Import utilities
 import { tailwindConfig, hexToRGB } from "../../utils/Utils";
+import { usePostContext } from "../../providers/PostContext";
 
 function DashboardCard01() {
+  const { AllPosts, createPost } = usePostContext();
   const posts = JSON.parse(sessionStorage.getItem("allPosts"));
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
@@ -23,7 +25,7 @@ function DashboardCard01() {
         <div className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase mb-1"></div>
         <div className="flex items-start">
           <div className="text-3xl font-bold text-slate-800 dark:text-slate-100 mr-2 mb-8">
-            {posts ? posts.length : 0}
+            {AllPosts ? AllPosts.length : 0}
           </div>
           {/* <div className="text-sm font-semibold text-white px-1.5 bg-emerald-500 rounded-full">+49%</div> */}
         </div>
