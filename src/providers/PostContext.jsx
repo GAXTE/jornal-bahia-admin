@@ -7,6 +7,7 @@ const PostContext = createContext({});
 export const PostProvider = ({ children }) => {
   const [AllPosts, setGetAllPosts] = useState([]);
   const [postMostView, setPostMostView] = useState(0);
+  console.log(AllPosts);
 
   const createPost = async (post) => {
     const { title, content, categoryId, tagIds, files } = post;
@@ -134,11 +135,11 @@ export const PostProvider = ({ children }) => {
 
     try {
       const { data } = await Api.get("/post");
-      data.reverse();
+
       // sessionStorage.setItem("allPosts", JSON.stringify(data));
       // sessionStorage.setItem("allPostsFetchTime", now.toString());
 
-      setGetAllPosts(data);
+      setGetAllPosts(data.posts);
     } catch (error) {
       console.log(error);
     }
