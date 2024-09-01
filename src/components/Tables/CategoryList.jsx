@@ -64,9 +64,7 @@ export const CategoryList = ({ array }) => {
       .then((response) => {
         setIsModalEdit(false);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const truncateTitle = (title) => {

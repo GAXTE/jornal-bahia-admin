@@ -62,7 +62,6 @@ export const CategoryProvider = ({ children }) => {
       success: "Categoria deletada com sucesso!",
       error: {
         render({ data }) {
-          console.log(data.response);
           return data.message || "Erro ao deletar a categoria";
         },
       },

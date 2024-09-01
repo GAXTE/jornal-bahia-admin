@@ -21,7 +21,7 @@ export const TagsPage = () => {
         setIsModalOpenCreate(false);
       })
       .catch((error) => {
-        console.log(err);
+        
       });
   };
   return (

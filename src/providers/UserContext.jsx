@@ -158,7 +158,6 @@ export const UserProvider = ({ children }) => {
   };
 
   const updateUser = async (id, user) => {
-    console.log(user);
     if (!user.username && !user.email) {
       toast.warning("Pelo menos um dos campos devem ser atualizados");
       throw new Error("Pelo menos um dos campos devem ser atualizados");

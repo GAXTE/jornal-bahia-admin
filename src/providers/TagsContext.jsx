@@ -15,7 +15,7 @@ export const TagsProvider = ({ children }) => {
       localStorage.setItem("tags", JSON.stringify(data));
       setListAllTags(data);
     } catch (error) {
-      console.log(error);
+     
     }
   };
 
@@ -45,7 +45,7 @@ export const TagsProvider = ({ children }) => {
           if (data.response.data.error === "Failed to create tag: Tag already exists") {
             return "Tag ja existe";
           }
-          console.log(data.response.data.error);
+          
         },
       },
     });

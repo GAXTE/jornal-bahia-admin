@@ -66,7 +66,7 @@ export const AddsList = ({ array }) => {
         setIsModalEdit(false);
       })
       .catch((error) => {
-        console.log(error);
+        
       });
   };
 

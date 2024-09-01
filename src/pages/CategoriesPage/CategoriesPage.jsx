@@ -32,9 +32,7 @@ export const CategoriesPage = () => {
       .then((response) => {
         setIsModalOpenCreate(false);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   return (

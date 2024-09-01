@@ -24,7 +24,6 @@ export const TeamList = ({ array }) => {
   const deleteUserById = () => {
     const UserId = getUserIdFromUrl();
     if (UserId) {
-      console.log();
       deleteUser(UserId);
       setIsModalOpenDelete(false);
       navi(location.pathname);
@@ -70,9 +69,7 @@ export const TeamList = ({ array }) => {
       .then(() => {
         setIsModalEdit(false);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   return (

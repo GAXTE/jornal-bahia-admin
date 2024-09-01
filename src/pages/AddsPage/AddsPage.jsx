@@ -54,9 +54,7 @@ export const AddsPage = () => {
         .then(() => {
           setIsModalOpenCreate(false);
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     } catch (error) {
       console.error("Erro ao criar propaganda:", error);
     }
