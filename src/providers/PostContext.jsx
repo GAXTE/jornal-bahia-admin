@@ -136,7 +136,7 @@ export const PostProvider = ({ children }) => {
       // sessionStorage.setItem("allPosts", JSON.stringify(data));
       // sessionStorage.setItem("allPostsFetchTime", now.toString());
 
-      setGetAllPosts(data.posts);
+      setGetAllPosts(data);
     } catch (error) {}
   };
 
