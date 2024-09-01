@@ -7,7 +7,6 @@ const PostContext = createContext({});
 export const PostProvider = ({ children }) => {
   const [AllPosts, setGetAllPosts] = useState([]);
   const [postMostView, setPostMostView] = useState(0);
-  console.log(AllPosts);
 
   const createPost = async (post) => {
     const { title, content, categoryId, tagIds, files } = post;
@@ -28,8 +27,7 @@ export const PostProvider = ({ children }) => {
       formData.append("content", content);
       formData.append("categoryId", categoryId);
 
-      const tagsToAppend =
-        tagIds.length === 1 ? [tagIds[0], tagIds[0]] : tagIds;
+      const tagsToAppend = tagIds.length === 1 ? [tagIds[0], tagIds[0]] : tagIds;
       tagsToAppend.forEach((tagId) => formData.append("tagIds", tagId));
 
       if (files && files.name) {
@@ -54,7 +52,6 @@ export const PostProvider = ({ children }) => {
       success: "Post criado com sucesso!",
       error: {
         render({ data }) {
-          console.log(data.response.data);
           return data.message || "Erro ao criar o post";
         },
       },
@@ -140,18 +137,20 @@ export const PostProvider = ({ children }) => {
       // sessionStorage.setItem("allPostsFetchTime", now.toString());
 
       setGetAllPosts(data.posts);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
+  };
+
+  const getPostsPaginations = async (page = 1, limit = 20) => {
+    try {
+      const { data } = await Api.get(`/post?page=${page}&limit=${limit}`);
+      return data;
+    } catch (error) {}
   };
 
   const postMostViews = async () => {
     try {
       const { data } = await Api.get("/filter/post/views");
-      const totalViews = data.reduce(
-        (sum, post) => sum + post.post_view_count,
-        0
-      );
+      const totalViews = data.reduce((sum, post) => sum + post.post_view_count, 0);
       setPostMostView(totalViews);
     } catch (error) {
       throw error;
@@ -173,6 +172,7 @@ export const PostProvider = ({ children }) => {
         updatePost,
         postMostViews,
         postMostView,
+        getPostsPaginations,
       }}
     >
       {children}

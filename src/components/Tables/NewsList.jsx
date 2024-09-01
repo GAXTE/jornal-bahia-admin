@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Trash } from "../Buttons/TrashButton";
 import { Edit } from "../Buttons/EditButton";
 import { ConfirmModal } from "../Modals/ConfirmModal";
@@ -9,19 +9,29 @@ import { usePostContext } from "../../providers/PostContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { YesButton } from "../Buttons/YesButton";
 
-export const NewsList = ({ array }) => {
-  console.log(array);
-  const { deletePost, updatePost } = usePostContext();
+export const NewsList = () => {
+  const { deletePost, updatePost, getPostsPaginations } = usePostContext();
+  const [posts, setPosts] = useState([]);
   const [isModalOpenDelete, setIsModalOpenDelete] = useState(false);
   const [isModalOpenEdit, setIsModalEdit] = useState(false);
-  const [editPost, setEditPost] = useState({
-    id: null,
-    title: "",
-    content: "",
-  });
+  const [editPost, setEditPost] = useState({ id: null, title: "", content: "" });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const limit = 20;
   const navigate = useNavigate();
   const location = useLocation();
 
+  useEffect(() => {
+    loadPosts(currentPage);
+  }, [currentPage]);
+
+  const loadPosts = async (page) => {
+    try {
+      const data = await getPostsPaginations(page, limit);
+      setPosts(data);
+      setTotalPages(Math.ceil(data.totalPages));
+    } catch (error) {}
+  };
   const getPostIdFromUrl = () => {
     const params = new URLSearchParams(location.search);
     return params.get("postId");
@@ -33,6 +43,7 @@ export const NewsList = ({ array }) => {
       deletePost(postId);
       setIsModalOpenDelete(false);
       navigate(location.pathname);
+      loadPosts(currentPage);
     }
   };
 
@@ -72,22 +83,31 @@ export const NewsList = ({ array }) => {
     e.preventDefault();
     const { id, title, content } = editPost;
     updatePost(id, { title, content })
-      .then((response) => {
+      .then(() => {
         setIsModalEdit(false);
+        loadPosts(currentPage);
       })
-      .catch((error) => {
-        console.error(error);
-      });
+      .catch((error) => {});
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
   };
 
   return (
-    <section className="">
+    <section>
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 dark:text-white">
-          Notícias
-        </h2>
+        <h2 className="text-lg font-medium text-gray-800 dark:text-white">Notícias</h2>
         <span className="px-3 py-1 text-xs text-gray-950 bg-red-100 rounded-full">
-          Total = {array.length}
+          Total = {posts.totalPosts}
         </span>
       </div>
       <div className="flex flex-col mt-6">
@@ -97,67 +117,44 @@ export const NewsList = ({ array }) => {
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead className="bg-gray-50 dark:bg-gray-800">
                   <tr>
-                    <th
-                      scope="col"
-                      className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
+                    <th className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                       Título
                     </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
+                    <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                       Categoria
                     </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
+                    <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                       Data
                     </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                    >
+                    <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                       Opções
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                  {array
-                    .sort(
-                      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-                    )
-                    .map((post, index) => (
-                      <tr key={index}>
-                        <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap dark:text-white">
-                          {truncateTitle(post.title)}
-                        </td>
-                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {post.categories[0].name}
-                        </td>
-                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                          {new Date(post.createdAt).toLocaleDateString("pt-BR")}
-                        </td>
-                        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
-                          <Trash
-                            setIsModalOpenDelete={() =>
-                              handleDeleteClick(post.id)
-                            }
-                          />
-                          <Edit handleEditClick={() => handleEditClick(post)} />
-                        </td>
-                      </tr>
-                    ))}
+                  {posts.posts?.map((post, index) => (
+                    <tr key={index}>
+                      <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap dark:text-white">
+                        {truncateTitle(post.title)}
+                      </td>
+                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                        {post.categories[0].name}
+                      </td>
+                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                        {new Date(post.createdAt).toLocaleDateString("pt-BR")}
+                      </td>
+                      <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between">
+                        <Trash setIsModalOpenDelete={() => handleDeleteClick(post.id)} />
+                        <Edit handleEditClick={() => handleEditClick(post)} />
+                      </td>
+                    </tr>
+                  ))}
                   <ConfirmModal
                     isModalOpenDelete={isModalOpenDelete}
                     setIsModalOpenDelete={setIsModalOpenDelete}
                     onConfirm={deletePostById}
                   />
-                  <DefaultModal
-                    isModalOpen={isModalOpenEdit}
-                    setIsModalOpen={setIsModalEdit}
-                  >
+                  <DefaultModal isModalOpen={isModalOpenEdit} setIsModalOpen={setIsModalEdit}>
                     <form onSubmit={handleEditSubmit}>
                       <div className="flex flex-col gap-6 items-center">
                         <DefaultInput
@@ -168,10 +165,7 @@ export const NewsList = ({ array }) => {
                           name="title"
                         />
                         <div className="flex flex-col gap-6 items-center">
-                          <TextRich
-                            value={editPost.content}
-                            onChange={handleChange}
-                          />
+                          <TextRich value={editPost.content} onChange={handleChange} />
                           <YesButton textButton="Enviar" type="submit" />
                         </div>
                       </div>
@@ -179,6 +173,30 @@ export const NewsList = ({ array }) => {
                   </DefaultModal>
                 </tbody>
               </table>
+              {/* Paginação */}
+              <div className="flex justify-between px-4 py-3 bg-gray-50 dark:bg-gray-800">
+                <button
+                  onClick={handlePreviousPage}
+                  disabled={currentPage === 1}
+                  className={`${
+                    currentPage === 1 ? "cursor-not-allowed opacity-50" : ""
+                  } text-sm text-gray-700 dark:text-gray-300`}
+                >
+                  Anterior
+                </button>
+                <span className="text-sm text-gray-700 dark:text-gray-300">
+                  Página {currentPage} de {totalPages}
+                </span>
+                <button
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                  className={`${
+                    currentPage === totalPages ? "cursor-not-allowed opacity-50" : ""
+                  } text-sm text-gray-700 dark:text-gray-300`}
+                >
+                  Próxima
+                </button>
+              </div>
             </div>
           </div>
         </div>
