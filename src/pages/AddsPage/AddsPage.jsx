@@ -65,7 +65,7 @@ export const AddsPage = () => {
       <DefaultTemplate textButton={"Propaganda"} setIsModalOpenCreate={setIsModalOpenCreate}>
         <DefaultModal isModalOpen={isModalOpenCreate} setIsModalOpen={setIsModalOpenCreate}>
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-6 items-center">
+            <div className="flex flex-col gap-4 sm:gap-6 items-center w-full">
               <DefaultInput
                 type={"text"}
                 placeholder={"Descrição da propaganda"}

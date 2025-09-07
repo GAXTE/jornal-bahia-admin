@@ -24,7 +24,7 @@ function Datepicker() {
       </div>
       <input
         type="text"
-        className="form-input pl-16 dark:bg-slate-800 text-slate-500 hover:text-slate-600 font-semibold w-[15.5rem]"
+        className="form-input pl-12 sm:pl-16 dark:bg-slate-800 text-slate-500 hover:text-slate-600 font-semibold w-full sm:w-[15.5rem] min-w-[200px] text-xs sm:text-sm"
         value={formatDate(date)}
         readOnly
       />

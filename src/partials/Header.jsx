@@ -12,13 +12,13 @@ function Header({ sidebarOpen, setSidebarOpen }) {
 
   return (
     <header className="sticky top-0 bg-white dark:bg-[#182235] border-b border-slate-200 dark:border-slate-700 z-30">
-      <div className="px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 -mb-px">
+      <div className="px-3 sm:px-4 md:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 sm:h-16 -mb-px">
           {/* Header: Left side */}
-          <div className="flex">
+          <div className="flex items-center">
             {/* Hamburger button */}
             <button
-              className="text-slate-500 hover:text-slate-600 lg:hidden"
+              className="text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300 lg:hidden p-2 -ml-2 rounded-md transition-colors duration-200"
               aria-controls="sidebar"
               aria-expanded={sidebarOpen}
               onClick={(e) => {
@@ -28,7 +28,7 @@ function Header({ sidebarOpen, setSidebarOpen }) {
             >
               <span className="sr-only">Open sidebar</span>
               <svg
-                className="w-6 h-6 fill-current"
+                className="w-5 h-5 sm:w-6 sm:h-6 fill-current"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -37,11 +37,18 @@ function Header({ sidebarOpen, setSidebarOpen }) {
                 <rect x="4" y="17" width="16" height="2" />
               </svg>
             </button>
+            
+            {/* Logo/Title area for mobile */}
+            <div className="ml-2 lg:hidden">
+              <h1 className="text-lg font-semibold text-slate-800 dark:text-slate-100 truncate">
+                Jornal Bahia
+              </h1>
+            </div>
           </div>
 
           {/* Header: Right side */}
-          <div className="flex items-center space-x-3">
-            <div>
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="flex items-center">
               {/* <button
                 className={`w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600/80 rounded-full ml-3 ${
                   searchModalOpen && "bg-slate-200"
@@ -76,7 +83,7 @@ function Header({ sidebarOpen, setSidebarOpen }) {
             {/* <Help align="right" /> */}
             {/* <ThemeToggle /> */}
             {/*  Divider */}
-            <hr className="w-px h-6 bg-slate-200 dark:bg-slate-700 border-none" />
+            <hr className="hidden sm:block w-px h-6 bg-slate-200 dark:bg-slate-700 border-none" />
             {/* <UserMenu align="right" /> */}
           </div>
         </div>

@@ -10,7 +10,7 @@ function Dashboard() {
   return (
     <>
       <DefaultTemplate styleButton={{ display: "none" }}>
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-6">
           {/* Line chart (Acme Plus) */}
           <DashboardCard01 />
           {/* Line chart (Acme Advanced) */}

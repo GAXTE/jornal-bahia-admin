@@ -14,12 +14,28 @@
   top: 0;
   z-index: 1000;
   background-color: white;
-  max-width: 500px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .text-rich-editor .ql-container {
-  height: 250px;
-  max-height: 250px;
+  height: 200px;
+  max-height: 200px;
   overflow-y: auto;
-  max-width: 500px;
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 640px) {
+  .text-rich-editor .ql-container {
+    height: 250px;
+    max-height: 250px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .text-rich-editor .ql-toolbar,
+  .text-rich-editor .ql-container {
+    max-width: 500px;
+  }
 }

@@ -71,23 +71,23 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       <div
         id="sidebar"
         ref={sidebar}
-        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 shrink-0 bg-slate-800 p-4 transition-all duration-200 ease-in-out ${
+        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 sm:w-72 lg:w-20 lg:sidebar-expanded:!w-64 xl:sidebar-expanded:!w-72 shrink-0 bg-slate-800 p-3 sm:p-4 lg:p-3 xl:p-4 transition-all duration-200 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-64"
         } 2xl:w-auto`}
       >
         {/* Sidebar header */}
-        <div className="flex justify-between mb-10 pr-3 sm:px-2">
+        <div className="flex justify-between mb-6 sm:mb-8 lg:mb-10 pr-3 sm:px-2">
           {/* Close button */}
           <button
             ref={trigger}
-            className="lg:hidden text-slate-500 hover:text-slate-400"
+            className="lg:hidden text-slate-500 hover:text-slate-400 p-1 -ml-1 rounded-md transition-colors duration-200"
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-controls="sidebar"
             aria-expanded={sidebarOpen}
           >
             <span className="sr-only">Close sidebar</span>
             <svg
-              className="w-6 h-6 fill-current"
+              className="w-5 h-5 sm:w-6 sm:h-6 fill-current"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -96,7 +96,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
           </button>
           {/* Logo */}
           <NavLink end to="/dashboard" className="block">
-            <svg width="32" height="32" viewBox="0 0 32 32">
+            <svg className="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 32 32">
               <defs>
                 <linearGradient
                   x1="28.538%"
@@ -140,7 +140,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         <div className="space-y-8">
           {/* Pages group */}
           <div>
-            <h3 className="text-xs uppercase text-slate-500 font-semibold pl-3">
+            <h3 className="text-xs sm:text-sm lg:text-xs uppercase text-slate-500 font-semibold pl-3">
               <span
                 className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6"
                 aria-hidden="true"
@@ -151,10 +151,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 Paginas
               </span>
             </h3>
-            <ul className="mt-3">
+            <ul className="mt-2 sm:mt-3 space-y-1">
               {/* Dashboard */}
               <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                className={`px-2 sm:px-3 py-2 rounded-sm ${
                   pathname.includes("messages") && "bg-slate-900"
                 }`}
               >
@@ -169,9 +169,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 >
                   <div className="flex items-center justify-between">
                     <div className="grow flex items-center">
-                      <LayoutDashboard className="opacity-70" />
+                      <LayoutDashboard className="opacity-70 w-4 h-4 sm:w-5 sm:h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5" />
 
-                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      <span className="text-sm sm:text-base lg:text-sm font-medium ml-2 sm:ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                         Painel
                       </span>
                     </div>
@@ -180,7 +180,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               </li>
               {/* News */}
               <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                className={`px-2 sm:px-3 py-2 rounded-sm ${
                   pathname.includes("messages") && "bg-slate-900"
                 }`}
               >
@@ -195,9 +195,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 >
                   <div className="flex items-center justify-between">
                     <div className="grow flex items-center ">
-                      <Newspaper className="opacity-70" />
+                      <Newspaper className="opacity-70 w-4 h-4 sm:w-5 sm:h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5" />
 
-                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      <span className="text-sm sm:text-base lg:text-sm font-medium ml-2 sm:ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                         Noticias
                       </span>
                     </div>
@@ -206,7 +206,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               </li>
               {/* Categorias */}
               <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                className={`px-2 sm:px-3 py-2 rounded-sm ${
                   pathname.includes("messages") && "bg-slate-900"
                 }`}
               >
@@ -221,8 +221,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 >
                   <div className="flex items-center justify-between">
                     <div className="grow flex items-center">
-                      <FolderArchive className="opacity-70" />
-                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      <FolderArchive className="opacity-70 w-4 h-4 sm:w-5 sm:h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5" />
+                      <span className="text-sm sm:text-base lg:text-sm font-medium ml-2 sm:ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                         Categorias
                       </span>
                     </div>
@@ -232,7 +232,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
 
               {/* Tags */}
               <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                className={`px-2 sm:px-3 py-2 rounded-sm ${
                   pathname.includes("messages") && "bg-slate-900"
                 }`}
               >
@@ -247,8 +247,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 >
                   <div className="flex items-center justify-between">
                     <div className="grow flex items-center">
-                      <Tags className="opacity-70" />
-                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      <Tags className="opacity-70 w-4 h-4 sm:w-5 sm:h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5" />
+                      <span className="text-sm sm:text-base lg:text-sm font-medium ml-2 sm:ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                         Tags
                       </span>
                     </div>
@@ -257,7 +257,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               </li>
               {/* Propaganda */}
               <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                className={`px-2 sm:px-3 py-2 rounded-sm ${
                   pathname.includes("messages") && "bg-slate-900"
                 }`}
               >
@@ -272,8 +272,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 >
                   <div className="flex items-center justify-between">
                     <div className="grow flex items-center">
-                      <Receipt className="opacity-70" />
-                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      <Receipt className="opacity-70 w-4 h-4 sm:w-5 sm:h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5" />
+                      <span className="text-sm sm:text-base lg:text-sm font-medium ml-2 sm:ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                         Propaganda
                       </span>
                     </div>
@@ -282,7 +282,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
               </li>
               {/* Team */}
               <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
+                className={`px-2 sm:px-3 py-2 rounded-sm ${
                   pathname.includes("messages") && "bg-slate-900"
                 }`}
               >
@@ -297,8 +297,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                 >
                   <div className="flex items-center justify-between">
                     <div className="grow flex items-center">
-                      <Users2 className="opacity-70" />
-                      <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      <Users2 className="opacity-70 w-4 h-4 sm:w-5 sm:h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5" />
+                      <span className="text-sm sm:text-base lg:text-sm font-medium ml-2 sm:ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                         Equipe
                       </span>
                     </div>
@@ -310,12 +310,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
         </div>
 
         {/* Expand / collapse button */}
-        <div className="pt-3 hidden lg:inline-flex 3xl:hidden justify-end mt-auto">
-          <div className="px-3 py-2">
-            <button onClick={() => setSidebarExpanded(!sidebarExpanded)}>
+        <div className="pt-2 sm:pt-3 hidden lg:inline-flex 3xl:hidden justify-end mt-auto">
+          <div className="px-2 sm:px-3 py-2">
+            <button 
+              onClick={() => setSidebarExpanded(!sidebarExpanded)}
+              className="p-1 rounded-md hover:bg-slate-700 transition-colors duration-200"
+            >
               <span className="sr-only">Expand / collapse sidebar</span>
               <svg
-                className="w-6 h-6 fill-current sidebar-expanded:rotate-180"
+                className="w-5 h-5 sm:w-6 sm:h-6 fill-current sidebar-expanded:rotate-180 transition-transform duration-200"
                 viewBox="0 0 24 24"
               >
                 <path

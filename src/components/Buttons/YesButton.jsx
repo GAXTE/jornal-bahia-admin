@@ -11,10 +11,10 @@ export const YesButton = ({ textButton, type, onConfirm }) => {
             onConfirm();
           }
         }}
-        className="btn bg-lime-500 hover:bg-lime-900 text-white"
+        className="btn bg-lime-500 hover:bg-lime-900 text-white w-full sm:w-auto px-3 py-2 text-sm sm:text-base min-h-[40px] sm:min-h-[36px]"
       >
-        <CheckCheck />
-        <span className="hidden xs:block ml-2">{textButton}</span>
+        <CheckCheck className="w-4 h-4 sm:w-5 sm:h-5" />
+        <span className="hidden xs:block ml-1 sm:ml-2">{textButton}</span>
       </button>
     </>
   );

@@ -76,8 +76,8 @@ export const NewsPage = () => {
           isModalOpen={isModalOpenCreate}
           setIsModalOpen={setIsModalOpenCreate}
         >
-          <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-            <div className="flex flex-col gap-6 items-center">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6 sm:gap-8">
+            <div className="flex flex-col gap-4 sm:gap-6 items-center w-full">
               <FileInput
                 type={"file"}
                 text={"Escolha uma imagem de capa"}
@@ -90,7 +90,7 @@ export const NewsPage = () => {
                 handleInputChange={handleInputChange}
                 name={"title"}
               />
-              <div className="flex justify-center gap-3 max-w-[500px] max-h-[100px] overflow-auto flex-wrap">
+              <div className="flex justify-center gap-2 sm:gap-3 max-w-[280px] sm:max-w-[500px] max-h-[80px] sm:max-h-[100px] overflow-auto flex-wrap p-2">
                 {ListAlltags.map((tag) => (
                   <div key={tag.id}>
                     <CheckBoxInput

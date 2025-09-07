@@ -3,7 +3,7 @@ import React from "react";
 function WelcomeBanner({ name }) {
   const user = JSON.parse(localStorage.getItem("user"));
   return (
-    <div className="relative bg-slate-300 dark:bg-red-400 p-4 sm:p-6 rounded-sm overflow-hidden mb-8">
+    <div className="relative bg-slate-300 dark:bg-red-400 p-3 sm:p-4 md:p-6 rounded-sm overflow-hidden mb-6 sm:mb-8">
       {/* Background illustration */}
       <div
         className="absolute right-0 top-0 -mt-4 mr-16 pointer-events-none hidden xl:block"
@@ -51,10 +51,10 @@ function WelcomeBanner({ name }) {
 
       {/* Content */}
       <div className="relative">
-        <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">
+        <h1 className="text-xl sm:text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">
           Olá, {user.username} 👋
         </h1>
-        <p className="dark:text-indigo-200">Seja bem vindo!</p>
+        <p className="text-sm sm:text-base dark:text-indigo-200">Seja bem vindo!</p>
       </div>
     </div>
   );

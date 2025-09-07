@@ -21,10 +21,10 @@ export const DefaultTemplate = ({
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
           <main>
-            <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+            <div className="px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 w-full max-w-9xl mx-auto">
               <WelcomeBanner />
-              <div className="sm:flex sm:justify-end sm:items-center mb-8">
-                <div className="grid grid-flow-col sm:auto-cols-max justify-start sm:justify-end gap-2">
+              <div className="flex flex-col sm:flex-row sm:justify-end sm:items-center mb-6 sm:mb-8 gap-4 sm:gap-0">
+                <div className="grid grid-flow-col sm:auto-cols-max justify-center sm:justify-end gap-2 sm:gap-3">
                   <Datepicker />
                   <CreateButton
                     style={styleButton}

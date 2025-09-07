@@ -34,6 +34,8 @@ module.exports = {
       },
       screens: {
         xs: '480px',
+        '3xl': '1600px',
+        '4xl': '1920px',
       },
       borderWidth: {
         3: '3px',

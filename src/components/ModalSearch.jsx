@@ -53,7 +53,7 @@ function ModalSearch({
       {/* Modal dialog */}
       <Transition
         id={id}
-        className="fixed inset-0 z-50 overflow-hidden flex items-start top-20 mb-4 justify-center px-4 sm:px-6"
+        className="fixed inset-0 z-50 overflow-hidden flex items-start top-16 sm:top-20 mb-4 justify-center px-2 sm:px-4 lg:px-6"
         role="dialog"
         aria-modal="true"
         show={modalOpen}
@@ -66,7 +66,7 @@ function ModalSearch({
       >
         <div
           ref={modalContent}
-          className="bg-white dark:bg-slate-800 border border-transparent dark:border-slate-700 overflow-auto max-w-2xl w-full max-h-full rounded shadow-lg"
+          className="bg-white dark:bg-slate-800 border border-transparent dark:border-slate-700 overflow-auto max-w-xs sm:max-w-lg md:max-w-2xl w-full max-h-[80vh] sm:max-h-full rounded-lg shadow-xl"
         >
           {/* Search form */}
           <form className="border-b border-slate-200 dark:border-slate-700">
@@ -76,7 +76,7 @@ function ModalSearch({
               </label>
               <input
                 id={searchId}
-                className="w-full dark:text-slate-300 bg-white dark:bg-slate-800 border-0 focus:ring-transparent placeholder-slate-400 dark:placeholder-slate-500 appearance-none py-3 pl-10 pr-4"
+                className="w-full dark:text-slate-300 bg-white dark:bg-slate-800 border-0 focus:ring-transparent placeholder-slate-400 dark:placeholder-slate-500 appearance-none py-2 sm:py-3 pl-8 sm:pl-10 pr-3 sm:pr-4 text-sm sm:text-base"
                 type="search"
                 placeholder="Search Anything…"
                 ref={searchInput}
