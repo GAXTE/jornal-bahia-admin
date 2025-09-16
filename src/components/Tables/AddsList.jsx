@@ -167,7 +167,7 @@ export const AddsList = ({ array }) => {
                           <Copy style={{ maxHeight: "15px", cursor: "pointer" }} />
                         </button>
                       </td>
-                      <td className="px-4 py-4 text-sm text-black whitespace-nowrap flex gap-1 max-w-[70px] min-w-[70px] justify-between h-[56px]">
+                      <td className="px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                         <>
                           <Trash setIsModalOpenDelete={() => handleDeleteClick(add.id)} />
                           <Edit handleEditClick={handleEditClick(add)} />
